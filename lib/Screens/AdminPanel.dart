@@ -24,6 +24,12 @@ class _AdminPanelState extends State<AdminPanel> {
 
   TextEditingController PerBagBuyingPrice = TextEditingController();
 
+  TextEditingController PerChickenBuyingPrice = TextEditingController();
+
+  TextEditingController PerChickenSalePrice = TextEditingController();
+
+  TextEditingController ChickenNumberController = TextEditingController();
+
 
 
 
@@ -32,6 +38,14 @@ class _AdminPanelState extends State<AdminPanel> {
   '৫০ কেজি ',
 ];
 String? selectedValue;
+
+
+
+final List<String> Chickens= [
+  'সোনালী বাচ্চা',
+  'ব্রয়লার বাচ্চা',
+];
+String? ChickenTypeValue;
 
 
 
@@ -136,12 +150,12 @@ double width = MediaQuery. of(context). size. width ;
                           child: DropdownButton2<String>(
                             isExpanded: true,
                             hint: const Text(
-                              'বস্তার ধরণ উল্লেখ করবেন',
+                              'বস্তার ধরণ উল্লেখ করুন',
                               style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
-                            fontFamily: "SiyamRupali"),
+                            fontFamily: "Josefin Sans"),
                             ),
                             items: Bags
                                 .map((String item) => DropdownMenuItem<String>(
@@ -167,7 +181,7 @@ double width = MediaQuery. of(context). size. width ;
                               height: 70,
                               width: width,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(4),
                                   border: Border.all(
                                     color: Colors.black26,
                                   ),
@@ -378,7 +392,7 @@ double width = MediaQuery. of(context). size. width ;
 
                                   AwesomeDialog(
                                              showCloseIcon: true,
-                                             customHeader: Text("hrllo"),
+                                             customHeader: Image.asset("lib/Images/alert.png", width: 90, height: 90,),
                                              context: context,
                                              dialogType: DialogType.info,
                                              animType: AnimType.rightSlide,
@@ -475,7 +489,8 @@ double width = MediaQuery. of(context). size. width ;
                                            
                                              },
 
-                                             btnOkColor: ColorName().appColor
+                                             btnOkColor: ColorName().appColor,
+                                             btnCancelColor: ColorName().CancelBtnColor
                                            ).show();
 
 
@@ -503,7 +518,344 @@ double width = MediaQuery. of(context). size. width ;
                     ),
                   ),
                 ),
-                Center(child: Text('CATS')),
+
+
+
+
+
+
+
+                // Second Tab
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+
+                      children: [
+
+                      SizedBox(height: 30,),
+
+                      TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 30,
+                      decoration: InputDecoration(
+
+                        suffixIcon: const Padding(
+                          padding: EdgeInsets.only(top: 17),
+                          child: Text("টি", style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              fontFamily: "Josefin Sans"),),
+                        ),
+
+                          prefixIcon: Image.asset("lib/Images/chicken_baby.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'বাচ্চার সংখ্যা লিখুন',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'বাচ্চার সংখ্যা লিখুন',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: ChickenNumberController,
+                    ),
+
+                    SizedBox(height:10),
+
+
+                    DropdownButtonHideUnderline(
+                          child: DropdownButton2<String>(
+                            isExpanded: true,
+                            hint: const Text(
+                              'বাচ্চার ধরণ উল্লেখ করুন',
+                              style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                            ),
+                            items: Chickens
+                                .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            fontFamily: "Josefin Sans"),
+                                      ),
+                                    ))
+                                .toList(),
+                            value: ChickenTypeValue,
+                            onChanged: (String? value) {
+                              setState(() {
+                                ChickenTypeValue = value;
+                              });
+                            },
+                            buttonStyleData: ButtonStyleData(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              height: 70,
+                              width: width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                  ),
+                                  color: Colors.white
+                                  
+                                ),
+                                elevation: 2,
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              height: 40,
+                            ),
+                          ),
+                        ),
+
+
+                         SizedBox(height: 20,),
+
+                      TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 30,
+                      decoration: InputDecoration(
+                          suffixIcon: const Text("৳", style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                            fontFamily: "Josefin Sans"),),
+
+
+                          prefixIcon: Image.asset("lib/Images/chicken_bag.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'প্রতি পিছের বিক্রয় মূল্য',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'প্রতি পিছের বিক্রয় মূল্য',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: PerChickenSalePrice,
+                    ),
+
+
+
+                  
+
+                    const SizedBox(height: 15,),
+
+                      TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 30,
+                      decoration: InputDecoration(
+                          suffixIcon: const Text("৳", style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                            fontFamily: "Josefin Sans"),),
+                          prefixIcon: Image.asset("lib/Images/chicken_bag.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'প্রতি পিছের ক্রয় মূল্য',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'প্রতি পিছের ক্রয় মূল্য',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: PerChickenBuyingPrice,
+                    ),
+
+
+
+
+                    SizedBox(height: 10,),
+
+
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                              ElevatedButton.icon(
+                                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(ColorName().appColor)),
+                                onPressed: () async{
+
+
+                                  AwesomeDialog(
+                                             showCloseIcon: true,
+                                             customHeader: Image.asset("lib/Images/alert.png", width: 90, height: 90,),
+                                             context: context,
+                                             dialogType: DialogType.info,
+                                             animType: AnimType.rightSlide,
+                                             body:  SingleChildScrollView(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                              
+                                                  const Padding(
+                                                    padding: EdgeInsets.all(8.0),
+                                                    child: Text("আপনি নিচে দেখে নিশ্চিত করুন সব ঠিক আছে কি না?", style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 16,
+                                                          fontFamily: "Josefin Sans"),),
+                                                  ),
+                                              
+                                                  const SizedBox(height: 15,),
+                                                  
+                                                  Text("বাচ্চার সংখ্যাঃ ${ChickenNumberController.text} টি", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                                  
+                                                   const SizedBox(height: 5,),
+                                                  
+                                                   Text("বাচ্চার ধরণঃ $ChickenTypeValue", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                              
+                                              
+                                                   const SizedBox(height: 5,),
+                                                  
+                                                  Text("প্রতি বাচ্চার বিক্রয় মূল্যঃ ${PerChickenSalePrice.text} টাকা", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                              
+                                              
+                                              
+                                                   
+                                              
+                                                   const SizedBox(height: 5,),
+                                                  Text("প্রতি বাচ্চার ক্রয় মূল্যঃ ${PerChickenBuyingPrice.text} টাকা", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                                  
+                                              
+                                              
+                                              
+                                                  ],
+                                                ),
+                                              ),
+                                             ),
+                                           
+                                             btnOkOnPress: () async{
+
+                                       
+                                 
+                                 
+                                           
+                                             },
+                                 
+                                             btnCancelOnPress: () {
+                                 
+                                 
+                                           
+                                             },
+
+                                             btnOkColor: ColorName().appColor,
+                                             btnCancelColor: ColorName().CancelBtnColor
+                                           ).show();
+
+
+
+                                    
+                                },
+                                icon: Icon(Icons.add, size: 18),
+                                label: const Text("সংরক্ষণ করুন",style: TextStyle(
+                                    
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    fontFamily: "Josefin Sans"),),
+                                )
+                      ],
+                    )
+
+                    
+                    
+                  
+
+                        
+             
+                  
+                      ],
+                    ),
+                  ),
+                ),
+
+
+
                 Center(child: Text('BIRDS')),
             ],
           ),
