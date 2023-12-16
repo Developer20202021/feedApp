@@ -18,6 +18,10 @@ class _AdminPanelState extends State<AdminPanel> {
 
   TextEditingController PerKgSalePrice = TextEditingController();
 
+  TextEditingController PerKgBuyingPrice = TextEditingController();
+
+  TextEditingController PerBagBuyingPrice = TextEditingController();
+
 
 
 
@@ -39,7 +43,7 @@ double width = MediaQuery. of(context). size. width ;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Feed App',
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -182,7 +186,7 @@ double width = MediaQuery. of(context). size. width ;
                       keyboardType: TextInputType.number,
                       maxLength: 30,
                       decoration: InputDecoration(
-                          suffixIcon: Text("৳", style: const TextStyle(
+                          suffixIcon: const Text("৳", style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 27,
@@ -264,6 +268,95 @@ double width = MediaQuery. of(context). size. width ;
                           
                           ),
                       controller: PerKgSalePrice,
+                    ),
+
+
+
+                    const SizedBox(height: 20,),
+
+                      TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 30,
+                      decoration: InputDecoration(
+                          suffixIcon: const Text("৳", style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                            fontFamily: "Josefin Sans"),),
+                          prefixIcon: Image.asset("lib/Images/fish-food.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'প্রতি বস্তা ক্রয় মূল্য',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'প্রতি বস্তা ক্রয় মূল্য',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: PerBagBuyingPrice,
+                    ),
+
+
+                    const SizedBox(height: 20,),
+
+                      TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 30,
+                      decoration: InputDecoration(
+                          suffixIcon: const Text("৳", style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                            fontFamily: "Josefin Sans"),),
+                          prefixIcon: Image.asset("lib/Images/kg.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'প্রতি কেজি ক্রয় মূল্য',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'প্রতি কেজি ক্রয় মূল্য',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: PerKgBuyingPrice,
                     ),
 
                         
