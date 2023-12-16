@@ -30,6 +30,16 @@ class _AdminPanelState extends State<AdminPanel> {
 
   TextEditingController ChickenNumberController = TextEditingController();
 
+  TextEditingController FeedNameController = TextEditingController();
+
+  TextEditingController MedicineNameController= TextEditingController();
+
+  TextEditingController PerMedicineBuyingPrice= TextEditingController();
+
+  TextEditingController PerMedicinSalePrice = TextEditingController();
+
+  TextEditingController MedicineAmountController = TextEditingController();
+
 
 
 
@@ -46,6 +56,17 @@ final List<String> Chickens= [
   'ব্রয়লার বাচ্চা',
 ];
 String? ChickenTypeValue;
+
+
+
+final List<String> Medicins =[
+  'ভিটামিন',
+  'ভ্যাকসিন',
+  'তরল বোতল',
+  'ট্যাবলেট পাতা',
+  'টিকা',
+];
+String?  MedicinsTypeValue;
 
 
 
@@ -98,6 +119,47 @@ double width = MediaQuery. of(context). size. width ;
                       SizedBox(height: 30,),
 
                       TextField(
+                      keyboardType: TextInputType.name,
+                      maxLength: 230,
+                      decoration: InputDecoration(
+
+                  
+
+                          prefixIcon: Image.asset("lib/Images/chicken_food.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'খাদ্যের নাম লিখুন',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'খাদ্যের নাম লিখুন',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: FeedNameController,
+                    ),
+
+                    SizedBox(height:10),
+
+                      TextField(
                       keyboardType: TextInputType.number,
                       maxLength: 30,
                       decoration: InputDecoration(
@@ -111,7 +173,7 @@ double width = MediaQuery. of(context). size. width ;
                               fontFamily: "Josefin Sans"),),
                         ),
 
-                          prefixIcon: Image.asset("lib/Images/fish-food.png", width: 10, height: 10,),
+                          prefixIcon: Image.asset("lib/Images/chicken_food.png", width: 10, height: 10,),
                           border: OutlineInputBorder(),
                           labelText: 'বস্তার সংখ্যা লিখুন',
                           labelStyle: const TextStyle(
@@ -210,7 +272,7 @@ double width = MediaQuery. of(context). size. width ;
                             fontFamily: "Josefin Sans"),),
 
 
-                          prefixIcon: Image.asset("lib/Images/fish-food.png", width: 10, height: 10,),
+                          prefixIcon: Image.asset("lib/Images/chicken_food.png", width: 10, height: 10,),
                           border: OutlineInputBorder(),
                           labelText: 'প্রতি বস্তার বিক্রয় মূল্য',
                           labelStyle: const TextStyle(
@@ -250,7 +312,7 @@ double width = MediaQuery. of(context). size. width ;
                       keyboardType: TextInputType.number,
                       maxLength: 30,
                       decoration: InputDecoration(
-                          suffixIcon: Text("৳", style: const TextStyle(
+                          suffixIcon: const Text("৳", style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 27,
@@ -300,7 +362,7 @@ double width = MediaQuery. of(context). size. width ;
                             fontWeight: FontWeight.bold,
                             fontSize: 27,
                             fontFamily: "Josefin Sans"),),
-                          prefixIcon: Image.asset("lib/Images/fish-food.png", width: 10, height: 10,),
+                          prefixIcon: Image.asset("lib/Images/chicken_food.png", width: 10, height: 10,),
                           border: OutlineInputBorder(),
                           labelText: 'প্রতি বস্তা ক্রয় মূল্য',
                           labelStyle: const TextStyle(
@@ -414,6 +476,18 @@ double width = MediaQuery. of(context). size. width ;
                                                   ),
                                               
                                                   const SizedBox(height: 15,),
+
+
+                                                   Text("খাদ্যের নামঃ ${FeedNameController.text}", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                                  
+                                                   const SizedBox(height: 5,),
+
+
+                                                  const SizedBox(height: 5,),
                                                   
                                                   Text("বস্তার সংখ্যাঃ ${BagNumber.text} টি", style: const TextStyle(
                                                         color: Colors.black,
@@ -856,7 +930,387 @@ double width = MediaQuery. of(context). size. width ;
 
 
 
-                Center(child: Text('BIRDS')),
+                // Third Tab
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+
+                      children: [
+
+                      SizedBox(height: 30,),
+
+                      TextField(
+                      keyboardType: TextInputType.name,
+                      maxLength: 230,
+                      decoration: InputDecoration(
+
+                   
+
+                          prefixIcon: Image.asset("lib/Images/syringe.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'মেডিসিনের নাম লিখুন',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'মেডিসিনের নাম লিখুন',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: MedicineNameController,
+                    ),
+
+                    SizedBox(height:10),
+
+
+                    TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 30,
+                      decoration: InputDecoration(
+
+                          suffixIcon: const Padding(
+                          padding: EdgeInsets.only(top: 17),
+                          child: Text("টি", style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              fontFamily: "Josefin Sans"),),
+                        ),
+
+                   
+
+                          prefixIcon: Image.asset("lib/Images/syringe.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'মেডিসিনের সংখ্যা লিখুন',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'মেডিসিনের সংখ্যা লিখুন',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: MedicineAmountController,
+                    ),
+
+                    SizedBox(height:10),
+
+
+                    DropdownButtonHideUnderline(
+                          child: DropdownButton2<String>(
+                            isExpanded: true,
+                            hint: const Text(
+                              'মেডিসিনের ধরণ',
+                              style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                            ),
+                            items: Medicins
+                                .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            fontFamily: "Josefin Sans"),
+                                      ),
+                                    ))
+                                .toList(),
+                            value: MedicinsTypeValue,
+                            onChanged: (String? value) {
+                              setState(() {
+                                MedicinsTypeValue = value;
+                              });
+                            },
+                            buttonStyleData: ButtonStyleData(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              height: 70,
+                              width: width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                  ),
+                                  color: Colors.white
+                                  
+                                ),
+                                elevation: 2,
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              height: 40,
+                            ),
+                          ),
+                        ),
+
+
+                         SizedBox(height: 20,),
+
+                      TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 30,
+                      decoration: InputDecoration(
+                          suffixIcon: const Text("৳", style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                            fontFamily: "Josefin Sans"),),
+
+
+                          prefixIcon: Image.asset("lib/Images/syringe.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'প্রতি মেডিসিনের ক্রয় মূল্য',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'প্রতি মেডিসিনের ক্রয় মূল্য',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: PerMedicineBuyingPrice,
+                    ),
+
+
+
+                  
+
+                    const SizedBox(height: 15,),
+
+                      TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 30,
+                      decoration: InputDecoration(
+                          suffixIcon: const Text("৳", style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                            fontFamily: "Josefin Sans"),),
+                          prefixIcon: Image.asset("lib/Images/syringe.png", width: 10, height: 10,),
+                          border: OutlineInputBorder(),
+                          labelText: 'প্রতি মেডিসিনের বিক্রয় মূল্য',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+                       
+                          hintText: 'প্রতি মেডিসিনের বিক্রয় মূল্য',
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: "Josefin Sans"),
+            
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: PerMedicinSalePrice,
+                    ),
+
+
+
+
+                    SizedBox(height: 10,),
+
+
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                              ElevatedButton.icon(
+                                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(ColorName().appColor)),
+                                onPressed: () async{
+
+
+                                  AwesomeDialog(
+                                             showCloseIcon: true,
+                                             customHeader: Image.asset("lib/Images/alert.png", width: 90, height: 90,),
+                                             context: context,
+                                             dialogType: DialogType.info,
+                                             animType: AnimType.rightSlide,
+                                             body:  SingleChildScrollView(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                              
+                                                  const Padding(
+                                                    padding: EdgeInsets.all(8.0),
+                                                    child: Text("আপনি নিচে দেখে নিশ্চিত করুন সব ঠিক আছে কি না?", style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 16,
+                                                          fontFamily: "Josefin Sans"),),
+                                                  ),
+                                              
+                                                  const SizedBox(height: 15,),
+                                                  
+                                                  Text("মেডিসিনের নামঃ ${MedicineNameController.text} ", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                                  
+                                                   const SizedBox(height: 5,),
+
+
+                                                   Text("মেডিসিনের সংখ্যাঃ ${MedicineAmountController.text} টি ", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                                  
+                                                   const SizedBox(height: 5,),
+                                                  
+                                                   Text("মেডিসিনের ধরণঃ $MedicinsTypeValue", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                              
+                                              
+                                                   const SizedBox(height: 5,),
+                                                  
+                                                  Text("প্রতি মেডিসিনের বিক্রয় মূল্যঃ ${PerMedicinSalePrice.text} টাকা", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                              
+                                              
+                                              
+                                                   
+                                              
+                                                   const SizedBox(height: 5,),
+                                                  Text("প্রতি মেডিসিনের ক্রয় মূল্যঃ ${PerMedicineBuyingPrice.text} টাকা", style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        fontFamily: "Josefin Sans"),),
+                                                  
+                                              
+                                              
+                                              
+                                                  ],
+                                                ),
+                                              ),
+                                             ),
+                                           
+                                             btnOkOnPress: () async{
+
+                                       
+                                 
+                                 
+                                           
+                                             },
+                                 
+                                             btnCancelOnPress: () {
+                                 
+                                 
+                                           
+                                             },
+
+                                             btnOkColor: ColorName().appColor,
+                                             btnCancelColor: ColorName().CancelBtnColor
+                                           ).show();
+
+
+
+                                    
+                                },
+                                icon: Icon(Icons.add, size: 18),
+                                label: const Text("সংরক্ষণ করুন",style: TextStyle(
+                                    
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    fontFamily: "Josefin Sans"),),
+                                )
+                      ],
+                    )
+
+                    
+                    
+                  
+
+                        
+             
+                  
+                      ],
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
