@@ -4,14 +4,14 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
 import 'package:flutter/material.dart';
 
-class AdminPanel extends StatefulWidget {
-  const AdminPanel({super.key});
+class StockUpload extends StatefulWidget {
+  const StockUpload({super.key});
 
   @override
-  State<AdminPanel> createState() => _AdminPanelState();
+  State<StockUpload> createState() => _StockUploadState();
 }
 
-class _AdminPanelState extends State<AdminPanel> {
+class _StockUploadState extends State<StockUpload> {
 
 
   TextEditingController BagNumber = TextEditingController();
