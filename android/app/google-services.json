@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "906341423350",
+    "project_id": "tvsapp-ac523",
+    "storage_bucket": "tvsapp-ac523.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906341423350:android:e7887f6c99d1636e1bf4d7",
+        "android_client_info": {
+          "package_name": "com.example.feed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhIzls4mKC9qKhl9xR-NKFFprmiruDEQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906341423350:android:187cfb35749c4c551bf4d7",
+        "android_client_info": {
+          "package_name": "com.example.tvs_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhIzls4mKC9qKhl9xR-NKFFprmiruDEQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
