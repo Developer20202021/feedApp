@@ -1,4 +1,5 @@
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
+import 'package:feed/Screens/AdminPanel/DailySales.dart';
 import 'package:feed/Screens/AdminPanel/DueCustomers.dart';
 import 'package:feed/Screens/StockManagement.dart';
 import 'package:feed/Screens/StockUpload.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: ColorName().appColor),
         useMaterial3: true,
       ),
-      home: DueCustomer(),
+      home: DailySales(),
     );
   }
 }

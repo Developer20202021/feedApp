@@ -112,270 +112,312 @@ class _DueCustomerState extends State<DueCustomer> {
                       for(int i=0; i<20; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: Material(
-                            elevation: 14,
-                            child: ListTile(
-                              trailing: ElevatedButton.icon(
-                                style: ButtonStyle(
-                                          elevation:MaterialStatePropertyAll(15),
-                                          backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                                              
-                                        ),
-                                onPressed: (){
-
-
-                                  showDialog(
-                          context: context,
-                          builder: (context) {
-
-                            return StatefulBuilder(builder:(context, setState) {
-                 
-                              return AlertDialog(
-                              
-                                actions: [
-
-                                  ElevatedButton.icon(
-                            style: ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                    
-                                    ),
-                            onPressed: (){
-
-                        }, icon: Icon(Icons.message, color: Colors.white,), label: const Text("Send",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
-
-                                ],
-                                elevation: 50.0,
-                                title: const Center(
-                                  child: Text("বকেয়া পরিশোধের জন্য বার্তা পাঠান", style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                          overflow: TextOverflow.visible,
-                                          fontFamily: "Josefin Sans"),),
-                                ),
-                                content: Container(
-                                height: 200,
-
-                           child:SingleChildScrollView(
-                            child: Column(
-                              children: [
-
-                                TextField(
-                      keyboardType: TextInputType.name,
-                      maxLength: 330,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                         
-
+                          child: InkWell(
+                            onTap: () {
+                              showDialog(
+                            context: context,
+                            builder: (context) {
                           
-                          border: OutlineInputBorder(),
-                          labelText: 'বার্তা লিখুন',
-                          labelStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-                       
-                          hintText: 'বার্তা লিখুন',
-                          hintStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-            
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                                   focusedBorder: OutlineInputBorder(
-                                     borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                                   ),
-                                   errorBorder: const OutlineInputBorder(
-                                     borderSide: BorderSide(
-                                         width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                                   ),
-                          
-                          
-                          ),
-                      controller: MessageController,
-                    ),
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
 
-                              ],
-                            ),
-
-                           ),
-                                       
-                                       
-                      ));});});
-
-
-
-
-
-
-                          
-                            }, icon: Icon(Icons.message), label: Text("Send")),
-                              title: Text("নামঃ মাহাদী হাসান",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.green.shade400,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            fontFamily: "Josefin Sans"),),
-                            subtitle: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                          
-                                Text("ফোনঃ 01721915550",    
-                                     
-                                     style: TextStyle(
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("মোট বকেয়া দেখুন", style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
                                             fontFamily: "Josefin Sans"),),
-                              
-                              Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),
-                              
-                              Text("বকেয়াঃ ১২০ টাকা",    
+                                  ),
+                                  content: Container(
+                                  height: 100,
+                          
+                             child:SingleChildScrollView(
+                              child: Center(
+
+                                // এটা ফোন নাম্বার দিয়ে কল করতে হবে।
+                                child: Text("মোট বকেয়াঃ ১২০ টাকা",    
                                      
                                      style: TextStyle(
                                             color: Colors.red.shade400,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                            fontSize: 16,
                                             fontFamily: "Josefin Sans"),),
-                              
-
-                        
-                          ElevatedButton.icon(
-                            style: const ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(Colors.pinkAccent),
-                    
-                                    ),
-                            onPressed: (){
-
-
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-
-                            return StatefulBuilder(builder:(context, setState) {
-                 
-                              return AlertDialog(
-                              
-                                actions: [
-
-                       ElevatedButton.icon(
-                            style: ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                    
-                                    ),
-                            onPressed: (){
-
-                        }, icon: const Icon(Icons.add, color: Colors.white,), label: const Text("Receive",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
+                              ),
+                          
+                             ),
+                                         
+                                         
+                       ));});});
+                            },
+                            child: Material(
+                              elevation: 14,
+                              child: ListTile(
+                                trailing: ElevatedButton.icon(
+                                  style: ButtonStyle(
+                                            elevation:MaterialStatePropertyAll(15),
+                                            backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                                
+                                          ),
+                                  onPressed: (){
+                          
+                          
+                                    showDialog(
+                            context: context,
+                            builder: (context) {
+                          
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
+                                  actions: [
+                          
+                                    ElevatedButton.icon(
+                              style: ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                                                  }, icon: Icon(Icons.message, color: Colors.white,), label: const Text("Send",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                          
+                                  ],
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("বকেয়া পরিশোধের জন্য বার্তা পাঠান", style: TextStyle(
+                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
-
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
+                                            fontFamily: "Josefin Sans"),),
+                                  ),
+                                  content: Container(
+                                  height: 200,
+                          
+                             child:SingleChildScrollView(
+                              child: Column(
+                                children: [
+                          
+                                  TextField(
+                                                keyboardType: TextInputType.name,
+                                                maxLength: 330,
+                                                maxLines: 4,
+                                                decoration: InputDecoration(
+                                                   
+                          
+                            
+                            border: OutlineInputBorder(),
+                            labelText: 'বার্তা লিখুন',
+                            labelStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                                 
+                            hintText: 'বার্তা লিখুন',
+                            hintStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                     focusedBorder: OutlineInputBorder(
+                                       borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                     ),
+                                     errorBorder: const OutlineInputBorder(
+                                       borderSide: BorderSide(
+                                           width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                     ),
+                            
+                            
+                            ),
+                                                controller: MessageController,
+                                              ),
+                          
                                 ],
-                                elevation: 50.0,
-                                title: const Center(
-                                  child: Text("বকেয়া টাকা নিন", style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                          overflow: TextOverflow.visible,
-                                          fontFamily: "Josefin Sans"),),
-                                ),
-                                content: Container(
-                                height: 200,
-
-                           child:SingleChildScrollView(
-                            child: Column(
-                              children: [
-
-                                TextField(
-                      keyboardType: TextInputType.name,
-                      maxLength: 30,
-                    
-                      decoration: InputDecoration(
-                         
-
+                              ),
                           
-                          border: OutlineInputBorder(),
-                          labelText: 'টাকার পরিমান লিখুন',
-                          labelStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-                       
-                          hintText: 'টাকার পরিমান লিখুন',
-                          hintStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-            
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                                   focusedBorder: OutlineInputBorder(
-                                     borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                                   ),
-                                   errorBorder: const OutlineInputBorder(
-                                     borderSide: BorderSide(
-                                         width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                                   ),
+                             ),
+                                         
+                                         
+                                                ));});});
                           
                           
-                          ),
-                      controller: ReceiveAmountController,
-                    ),
-
-                              ],
-                            ),
-
-                           ),
+                          
+                          
+                          
+                          
+                            
+                              }, icon: Icon(Icons.message), label: Text("Send")),
+                                title: Text("নামঃ মাহাদী হাসান",    
                                        
+                                       style: TextStyle(
+                                              color: Colors.green.shade400,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              fontFamily: "Josefin Sans"),),
+                              subtitle: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                            
+                                  Text("ফোনঃ 01721915550",    
                                        
-                      ));});});
-
-
-
-
-
-                        }, icon: Icon(Icons.money), label: Text("টাকা নিন",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
+                                       style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                                Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                                Text("বকেয়াঃ ১২০ টাকা",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.red.shade400,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                          
+                                                  
+                            ElevatedButton.icon(
+                              style: const ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(Colors.pinkAccent),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                          
+                                                showDialog(
+                            context: context,
+                            builder: (context) {
+                          
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
+                                  actions: [
+                          
+                                                 ElevatedButton.icon(
+                              style: ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                                                  }, icon: const Icon(Icons.add, color: Colors.white,), label: const Text("Receive",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                          
+                                  ],
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("বকেয়া টাকা নিন", style: TextStyle(
+                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
+                                            fontFamily: "Josefin Sans"),),
+                                  ),
+                                  content: Container(
+                                  height: 200,
                           
+                             child:SingleChildScrollView(
+                              child: Column(
+                                children: [
                           
+                                  TextField(
+                                                keyboardType: TextInputType.name,
+                                                maxLength: 30,
+                                              
+                                                decoration: InputDecoration(
+                                                   
                           
-                              ],
+                            
+                            border: OutlineInputBorder(),
+                            labelText: 'টাকার পরিমান লিখুন',
+                            labelStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                                 
+                            hintText: 'টাকার পরিমান লিখুন',
+                            hintStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                     focusedBorder: OutlineInputBorder(
+                                       borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                     ),
+                                     errorBorder: const OutlineInputBorder(
+                                       borderSide: BorderSide(
+                                           width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                     ),
+                            
+                            
                             ),
+                                                controller: ReceiveAmountController,
+                                              ),
+                          
+                                ],
+                              ),
+                          
+                             ),
+                                         
+                                         
+                                                ));});});
                           
                           
+                          
+                          
+                          
+                                                  }, icon: Icon(Icons.money), label: Text("টাকা নিন",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                            
+                            
+                            
+                                ],
+                              ),
+                            
+                            
+                              ),
                             ),
                           ),
                         ),
@@ -396,7 +438,7 @@ class _DueCustomerState extends State<DueCustomer> {
 
 
 
-                 // First Tab 
+                 // 2nd Tab 
                 SingleChildScrollView(
                   child: Column(
                     children: [
@@ -458,270 +500,315 @@ class _DueCustomerState extends State<DueCustomer> {
                       for(int i=0; i<20; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: Material(
-                            elevation: 14,
-                            child: ListTile(
-                              trailing: ElevatedButton.icon(
-                                style: ButtonStyle(
-                                          elevation:MaterialStatePropertyAll(15),
-                                          backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                                              
-                                        ),
-                                onPressed: (){
+                          child: InkWell(
 
-
-                                  showDialog(
-                          context: context,
-                          builder: (context) {
-
-                            return StatefulBuilder(builder:(context, setState) {
-                 
-                              return AlertDialog(
-                              
-                                actions: [
-
-                                  ElevatedButton.icon(
-                            style: ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                    
-                                    ),
-                            onPressed: (){
-
-                        }, icon: Icon(Icons.message, color: Colors.white,), label: const Text("Send",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
-
-                                ],
-                                elevation: 50.0,
-                                title: const Center(
-                                  child: Text("বকেয়া পরিশোধের জন্য বার্তা পাঠান", style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                          overflow: TextOverflow.visible,
-                                          fontFamily: "Josefin Sans"),),
-                                ),
-                                content: Container(
-                                height: 200,
-
-                           child:SingleChildScrollView(
-                            child: Column(
-                              children: [
-
-                                TextField(
-                      keyboardType: TextInputType.name,
-                      maxLength: 330,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                         
-
+                            onTap: () {
+                              showDialog(
+                            context: context,
+                            builder: (context) {
                           
-                          border: OutlineInputBorder(),
-                          labelText: 'বার্তা লিখুন',
-                          labelStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-                       
-                          hintText: 'বার্তা লিখুন',
-                          hintStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-            
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                                   focusedBorder: OutlineInputBorder(
-                                     borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                                   ),
-                                   errorBorder: const OutlineInputBorder(
-                                     borderSide: BorderSide(
-                                         width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                                   ),
-                          
-                          
-                          ),
-                      controller: MessageController,
-                    ),
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
 
-                              ],
-                            ),
-
-                           ),
-                                       
-                                       
-                      ));});});
-
-
-
-
-
-
-                          
-                            }, icon: Icon(Icons.message), label: Text("Send")),
-                              title: Text("নামঃ মাহাদী হাসান",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.green.shade400,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            fontFamily: "Josefin Sans"),),
-                            subtitle: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                          
-                                Text("ফোনঃ 01721915550",    
-                                     
-                                     style: TextStyle(
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("মোট বকেয়া দেখুন", style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
                                             fontFamily: "Josefin Sans"),),
-                              
-                              Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),
-                              
-                              Text("বকেয়াঃ ১২০ টাকা",    
+                                  ),
+                                  content: Container(
+                                  height: 100,
+                          
+                             child:SingleChildScrollView(
+                              child: Center(
+
+                                // এটা ফোন নাম্বার দিয়ে কল করতে হবে।
+                                child: Text("মোট বকেয়াঃ ১২০ টাকা",    
                                      
                                      style: TextStyle(
                                             color: Colors.red.shade400,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                            fontSize: 16,
                                             fontFamily: "Josefin Sans"),),
-                              
-
-                        
-                          ElevatedButton.icon(
-                            style: const ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(Colors.pinkAccent),
-                    
-                                    ),
-                            onPressed: (){
+                              ),
+                          
+                             ),
+                                         
+                                         
+                       ));});});
+                            },
 
 
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-
-                            return StatefulBuilder(builder:(context, setState) {
-                 
-                              return AlertDialog(
-                              
-                                actions: [
-
-                       ElevatedButton.icon(
-                            style: ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                    
-                                    ),
-                            onPressed: (){
-
-                        }, icon: const Icon(Icons.add, color: Colors.white,), label: const Text("Receive",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
+                            child: Material(
+                              elevation: 14,
+                              child: ListTile(
+                                trailing: ElevatedButton.icon(
+                                  style: ButtonStyle(
+                                            elevation:MaterialStatePropertyAll(15),
+                                            backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                                
+                                          ),
+                                  onPressed: (){
+                          
+                          
+                                    showDialog(
+                            context: context,
+                            builder: (context) {
+                          
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
+                                  actions: [
+                          
+                                    ElevatedButton.icon(
+                              style: ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                                                  }, icon: Icon(Icons.message, color: Colors.white,), label: const Text("Send",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                          
+                                  ],
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("বকেয়া পরিশোধের জন্য বার্তা পাঠান", style: TextStyle(
+                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
-
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
+                                            fontFamily: "Josefin Sans"),),
+                                  ),
+                                  content: Container(
+                                  height: 200,
+                          
+                             child:SingleChildScrollView(
+                              child: Column(
+                                children: [
+                          
+                                  TextField(
+                                                keyboardType: TextInputType.name,
+                                                maxLength: 330,
+                                                maxLines: 4,
+                                                decoration: InputDecoration(
+                                                   
+                          
+                            
+                            border: OutlineInputBorder(),
+                            labelText: 'বার্তা লিখুন',
+                            labelStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                                 
+                            hintText: 'বার্তা লিখুন',
+                            hintStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                     focusedBorder: OutlineInputBorder(
+                                       borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                     ),
+                                     errorBorder: const OutlineInputBorder(
+                                       borderSide: BorderSide(
+                                           width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                     ),
+                            
+                            
+                            ),
+                                                controller: MessageController,
+                                              ),
+                          
                                 ],
-                                elevation: 50.0,
-                                title: const Center(
-                                  child: Text("বকেয়া টাকা নিন", style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                          overflow: TextOverflow.visible,
-                                          fontFamily: "Josefin Sans"),),
-                                ),
-                                content: Container(
-                                height: 200,
-
-                           child:SingleChildScrollView(
-                            child: Column(
-                              children: [
-
-                                TextField(
-                      keyboardType: TextInputType.name,
-                      maxLength: 30,
-                    
-                      decoration: InputDecoration(
-                         
-
+                              ),
                           
-                          border: OutlineInputBorder(),
-                          labelText: 'টাকার পরিমান লিখুন',
-                          labelStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-                       
-                          hintText: 'টাকার পরিমান লিখুন',
-                          hintStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-            
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                                   focusedBorder: OutlineInputBorder(
-                                     borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                                   ),
-                                   errorBorder: const OutlineInputBorder(
-                                     borderSide: BorderSide(
-                                         width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                                   ),
+                             ),
+                                         
+                                         
+                                                ));});});
                           
                           
-                          ),
-                      controller: ReceiveAmountController,
-                    ),
-
-                              ],
-                            ),
-
-                           ),
+                          
+                          
+                          
+                          
+                            
+                              }, icon: Icon(Icons.message), label: Text("Send")),
+                                title: Text("নামঃ মাহাদী হাসান",    
                                        
+                                       style: TextStyle(
+                                              color: Colors.green.shade400,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              fontFamily: "Josefin Sans"),),
+                              subtitle: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                            
+                                  Text("ফোনঃ 01721915550",    
                                        
-                      ));});});
-
-
-
-
-
-                        }, icon: Icon(Icons.money), label: Text("টাকা নিন",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
+                                       style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                                Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                                Text("বকেয়াঃ ১২০ টাকা",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.red.shade400,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                          
+                                                  
+                            ElevatedButton.icon(
+                              style: const ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(Colors.pinkAccent),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                          
+                                                showDialog(
+                            context: context,
+                            builder: (context) {
+                          
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
+                                  actions: [
+                          
+                                                 ElevatedButton.icon(
+                              style: ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                                                  }, icon: const Icon(Icons.add, color: Colors.white,), label: const Text("Receive",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                          
+                                  ],
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("বকেয়া টাকা নিন", style: TextStyle(
+                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
+                                            fontFamily: "Josefin Sans"),),
+                                  ),
+                                  content: Container(
+                                  height: 200,
                           
+                             child:SingleChildScrollView(
+                              child: Column(
+                                children: [
                           
+                                  TextField(
+                                                keyboardType: TextInputType.name,
+                                                maxLength: 30,
+                                              
+                                                decoration: InputDecoration(
+                                                   
                           
-                              ],
+                            
+                            border: OutlineInputBorder(),
+                            labelText: 'টাকার পরিমান লিখুন',
+                            labelStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                                 
+                            hintText: 'টাকার পরিমান লিখুন',
+                            hintStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                     focusedBorder: OutlineInputBorder(
+                                       borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                     ),
+                                     errorBorder: const OutlineInputBorder(
+                                       borderSide: BorderSide(
+                                           width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                     ),
+                            
+                            
                             ),
+                                                controller: ReceiveAmountController,
+                                              ),
+                          
+                                ],
+                              ),
+                          
+                             ),
+                                         
+                                         
+                                                ));});});
                           
                           
+                          
+                          
+                          
+                                                  }, icon: Icon(Icons.money), label: Text("টাকা নিন",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                            
+                            
+                            
+                                ],
+                              ),
+                            
+                            
+                              ),
                             ),
                           ),
                         ),
@@ -738,7 +825,7 @@ class _DueCustomerState extends State<DueCustomer> {
 
 
                 
-            // First Tab 
+            // 3rd Tab 
                 SingleChildScrollView(
                   child: Column(
                     children: [
@@ -800,270 +887,323 @@ class _DueCustomerState extends State<DueCustomer> {
                       for(int i=0; i<20; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: Material(
-                            elevation: 14,
-                            child: ListTile(
-                              trailing: ElevatedButton.icon(
-                                style: ButtonStyle(
-                                          elevation:MaterialStatePropertyAll(15),
-                                          backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                                              
-                                        ),
-                                onPressed: (){
+                          child: InkWell(
+
+                            onTap: () async{
 
 
-                                  showDialog(
-                          context: context,
-                          builder: (context) {
 
-                            return StatefulBuilder(builder:(context, setState) {
-                 
-                              return AlertDialog(
-                              
-                                actions: [
-
-                                  ElevatedButton.icon(
-                            style: ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                    
-                                    ),
-                            onPressed: (){
-
-                        }, icon: Icon(Icons.message, color: Colors.white,), label: const Text("Send",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
-
-                                ],
-                                elevation: 50.0,
-                                title: const Center(
-                                  child: Text("বকেয়া পরিশোধের জন্য বার্তা পাঠান", style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                          overflow: TextOverflow.visible,
-                                          fontFamily: "Josefin Sans"),),
-                                ),
-                                content: Container(
-                                height: 200,
-
-                           child:SingleChildScrollView(
-                            child: Column(
-                              children: [
-
-                                TextField(
-                      keyboardType: TextInputType.name,
-                      maxLength: 330,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                         
-
+                              showDialog(
+                            context: context,
+                            builder: (context) {
                           
-                          border: OutlineInputBorder(),
-                          labelText: 'বার্তা লিখুন',
-                          labelStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-                       
-                          hintText: 'বার্তা লিখুন',
-                          hintStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-            
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                                   focusedBorder: OutlineInputBorder(
-                                     borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                                   ),
-                                   errorBorder: const OutlineInputBorder(
-                                     borderSide: BorderSide(
-                                         width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                                   ),
-                          
-                          
-                          ),
-                      controller: MessageController,
-                    ),
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
 
-                              ],
-                            ),
-
-                           ),
-                                       
-                                       
-                      ));});});
-
-
-
-
-
-
-                          
-                            }, icon: Icon(Icons.message), label: Text("Send")),
-                              title: Text("নামঃ মাহাদী হাসান",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.green.shade400,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            fontFamily: "Josefin Sans"),),
-                            subtitle: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                          
-                                Text("ফোনঃ 01721915550",    
-                                     
-                                     style: TextStyle(
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("মোট বকেয়া দেখুন", style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
                                             fontFamily: "Josefin Sans"),),
-                              
-                              Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),
-                              
-                              Text("বকেয়াঃ ১২০ টাকা",    
+                                  ),
+                                  content: Container(
+                                  height: 100,
+                          
+                             child:SingleChildScrollView(
+                              child: Center(
+
+                                // এটা ফোন নাম্বার দিয়ে কল করতে হবে।
+                                child: Text("মোট বকেয়াঃ ১২০ টাকা",    
                                      
                                      style: TextStyle(
                                             color: Colors.red.shade400,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                            fontSize: 16,
                                             fontFamily: "Josefin Sans"),),
+                              ),
+                          
+                             ),
+                                         
+                                         
+                       ));});});
+
+
                               
-
-                        
-                          ElevatedButton.icon(
-                            style: const ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(Colors.pinkAccent),
-                    
-                                    ),
-                            onPressed: (){
-
-
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-
-                            return StatefulBuilder(builder:(context, setState) {
-                 
-                              return AlertDialog(
                               
-                                actions: [
+                            },
 
-                       ElevatedButton.icon(
-                            style: ButtonStyle(
-                                      elevation:MaterialStatePropertyAll(15),
-                                      backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
-                    
-                                    ),
-                            onPressed: (){
 
-                        }, icon: const Icon(Icons.add, color: Colors.white,), label: const Text("Receive",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
+
+                            child: Material(
+                              elevation: 14,
+                              child: ListTile(
+                                trailing: ElevatedButton.icon(
+                                  style: ButtonStyle(
+                                            elevation:MaterialStatePropertyAll(15),
+                                            backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                                
+                                          ),
+                                  onPressed: (){
+                          
+                          
+                                    showDialog(
+                            context: context,
+                            builder: (context) {
+                          
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
+                                  actions: [
+                          
+                                    ElevatedButton.icon(
+                              style: ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                                                  }, icon: Icon(Icons.message, color: Colors.white,), label: const Text("Send",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                          
+                                  ],
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("বকেয়া পরিশোধের জন্য বার্তা পাঠান", style: TextStyle(
+                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
-
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
+                                            fontFamily: "Josefin Sans"),),
+                                  ),
+                                  content: Container(
+                                  height: 200,
+                          
+                             child:SingleChildScrollView(
+                              child: Column(
+                                children: [
+                          
+                                  TextField(
+                                                keyboardType: TextInputType.name,
+                                                maxLength: 330,
+                                                maxLines: 4,
+                                                decoration: InputDecoration(
+                                                   
+                          
+                            
+                            border: OutlineInputBorder(),
+                            labelText: 'বার্তা লিখুন',
+                            labelStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                                 
+                            hintText: 'বার্তা লিখুন',
+                            hintStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                     focusedBorder: OutlineInputBorder(
+                                       borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                     ),
+                                     errorBorder: const OutlineInputBorder(
+                                       borderSide: BorderSide(
+                                           width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                     ),
+                            
+                            
+                            ),
+                                                controller: MessageController,
+                                              ),
+                          
                                 ],
-                                elevation: 50.0,
-                                title: const Center(
-                                  child: Text("বকেয়া টাকা নিন", style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                          overflow: TextOverflow.visible,
-                                          fontFamily: "Josefin Sans"),),
-                                ),
-                                content: Container(
-                                height: 200,
-
-                           child:SingleChildScrollView(
-                            child: Column(
-                              children: [
-
-                                TextField(
-                      keyboardType: TextInputType.name,
-                      maxLength: 30,
-                    
-                      decoration: InputDecoration(
-                         
-
+                              ),
                           
-                          border: OutlineInputBorder(),
-                          labelText: 'টাকার পরিমান লিখুন',
-                          labelStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-                       
-                          hintText: 'টাকার পরিমান লিখুন',
-                          hintStyle: const TextStyle(
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 14,
-                                 fontFamily: "Josefin Sans"),
-            
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                                   focusedBorder: OutlineInputBorder(
-                                     borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                                   ),
-                                   errorBorder: const OutlineInputBorder(
-                                     borderSide: BorderSide(
-                                         width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                                   ),
+                             ),
+                                         
+                                         
+                       ));});});
                           
                           
-                          ),
-                      controller: ReceiveAmountController,
-                    ),
-
-                              ],
-                            ),
-
-                           ),
+                          
+                          
+                          
+                          
+                            
+                              }, icon: Icon(Icons.message), label: Text("Send")),
+                                title: Text("নামঃ মাহাদী হাসান",    
                                        
+                                       style: TextStyle(
+                                              color: Colors.green.shade400,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              fontFamily: "Josefin Sans"),),
+                              subtitle: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                            
+                                  Text("ফোনঃ 01721915550",    
                                        
-                      ));});});
-
-
-
-
-
-                        }, icon: Icon(Icons.money), label: Text("টাকা নিন",    
-                                     
-                                     style: TextStyle(
-                                            color: Colors.white,
+                                       style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                                Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                                Text("বকেয়াঃ ১২০ টাকা",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.red.shade400,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),
+                                
+                          
+                                                  
+                            ElevatedButton.icon(
+                              style: const ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(Colors.pinkAccent),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                          
+                                                showDialog(
+                            context: context,
+                            builder: (context) {
+                          
+                              return StatefulBuilder(builder:(context, setState) {
+                                           
+                                return AlertDialog(
+                                
+                                  actions: [
+                          
+                                                 ElevatedButton.icon(
+                              style: ButtonStyle(
+                                        elevation:MaterialStatePropertyAll(15),
+                                        backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
+                                              
+                                      ),
+                              onPressed: (){
+                          
+                                                  }, icon: const Icon(Icons.add, color: Colors.white,), label: const Text("Receive",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                          
+                                  ],
+                                  elevation: 50.0,
+                                  title: const Center(
+                                    child: Text("বকেয়া টাকা নিন", style: TextStyle(
+                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            fontFamily: "Josefin Sans"),),),
+                                            fontSize: 17,
+                                            overflow: TextOverflow.visible,
+                                            fontFamily: "Josefin Sans"),),
+                                  ),
+                                  content: Container(
+                                  height: 200,
                           
+                             child:SingleChildScrollView(
+                              child: Column(
+                                children: [
                           
+                                  TextField(
+                                                keyboardType: TextInputType.name,
+                                                maxLength: 30,
+                                              
+                                                decoration: InputDecoration(
+                                                   
                           
-                              ],
+                            
+                            border: OutlineInputBorder(),
+                            labelText: 'টাকার পরিমান লিখুন',
+                            labelStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                                 
+                            hintText: 'টাকার পরিমান লিখুন',
+                            hintStyle: const TextStyle(
+                                   color: Colors.black,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 14,
+                                   fontFamily: "Josefin Sans"),
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                     focusedBorder: OutlineInputBorder(
+                                       borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                     ),
+                                     errorBorder: const OutlineInputBorder(
+                                       borderSide: BorderSide(
+                                           width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                     ),
+                            
+                            
                             ),
+                                                controller: ReceiveAmountController,
+                                              ),
+                          
+                                ],
+                              ),
+                          
+                             ),
+                                         
+                                         
+                                                ));});});
                           
                           
+                          
+                          
+                          
+                                                  }, icon: Icon(Icons.money), label: Text("টাকা নিন",    
+                                       
+                                       style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              fontFamily: "Josefin Sans"),),),
+                            
+                            
+                            
+                                ],
+                              ),
+                            
+                            
+                              ),
                             ),
                           ),
                         ),
