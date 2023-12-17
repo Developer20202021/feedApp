@@ -205,7 +205,7 @@ Future<void> getData(String paymentDate) async {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-          "${VisiblePaymentMonth} বিক্রিয় করা তথ্য"
+          "${VisiblePaymentMonth} বিক্রয় করা তথ্য"
               .toBijoy,
               style: const TextStyle(
               color: Colors.white,
