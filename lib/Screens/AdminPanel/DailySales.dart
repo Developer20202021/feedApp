@@ -20,7 +20,7 @@ class _DailySalesState extends State<DailySales> {
 
   bool loading = false;
 
-  var VisiblePaymentMonth = "${DateTime.now().month.toString()}/${DateTime.now().year.toString()}";
+  var VisiblePaymentMonth = "${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}";
   
 
 
@@ -205,7 +205,7 @@ Future<void> getData(String paymentDate) async {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-          "আজকের বিক্রিয় করা তথ্য"
+          "${VisiblePaymentMonth} বিক্রিয় করা তথ্য"
               .toBijoy,
               style: const TextStyle(
               color: Colors.white,
