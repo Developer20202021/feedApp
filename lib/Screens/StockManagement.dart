@@ -707,7 +707,78 @@ class _StockShowState extends State<StockShow> {
                                                                               MaterialStatePropertyAll(ColorName().appColor),
                                                                         ),
                                                                         onPressed:
-                                                                            () {},
+                                                                            () async {
+                                                                          // Update FeedStock bag Number Data
+
+                                                                          Future
+                                                                              updateData() async {
+                                                                            final docUser =
+                                                                                FirebaseFirestore.instance.collection("FeedStockInfo").doc(AllFeedStockData[i]["StockID"]);
+
+                                                                            final UpadateData =
+                                                                                {
+                                                                              "FeedBagNumber": (int.parse(AllFeedStockData[i]["FeedBagNumber"].toString()) - (int.parse(BagToKhuchraConvertController.text.trim().toString()))).toString(),
+                                                                              "KhuchraAmountKg": (int.parse(BagToKhuchraConvertController.text.trim().toString())) * (AllFeedStockData[i]["FeedBagType"].toString().split(" ")[0] == "২৫" ? 25 : 50)
+                                                                            };
+
+                                                                            // user Data Update and show snackbar
+
+                                                                            docUser
+                                                                                .update(UpadateData)
+                                                                                .then((value) => setState(() {
+                                                                                      setState(() {
+                                                                                        loading = false;
+                                                                                      });
+
+                                                                                      Navigator.of(context).pop();
+
+                                                                                      print("Done");
+
+                                                                                      final snackBar = SnackBar(
+                                                                                        /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                        elevation: 0,
+                                                                                        behavior: SnackBarBehavior.floating,
+                                                                                        backgroundColor: Colors.transparent,
+                                                                                        content: AwesomeSnackbarContent(
+                                                                                          title: 'Sale Successfull',
+                                                                                          message: 'Sale Successfull',
+
+                                                                                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                          contentType: ContentType.success,
+                                                                                        ),
+                                                                                      );
+
+                                                                                      ScaffoldMessenger.of(context)
+                                                                                        ..hideCurrentSnackBar()
+                                                                                        ..showSnackBar(snackBar);
+                                                                                    }))
+                                                                                .onError((error, stackTrace) => setState(() {
+                                                                                      loading = false;
+                                                                                      Navigator.of(context).pop();
+                                                                                      final snackBar = SnackBar(
+                                                                                        /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                        elevation: 0,
+                                                                                        behavior: SnackBarBehavior.floating,
+                                                                                        backgroundColor: Colors.transparent,
+                                                                                        content: AwesomeSnackbarContent(
+                                                                                          title: 'Something Wrong!! Try again Later',
+                                                                                          message: 'Something Wrong!! Try again Later',
+
+                                                                                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                          contentType: ContentType.failure,
+                                                                                        ),
+                                                                                      );
+
+                                                                                      ScaffoldMessenger.of(context)
+                                                                                        ..hideCurrentSnackBar()
+                                                                                        ..showSnackBar(snackBar);
+
+                                                                                      print(error);
+                                                                                    }));
+                                                                          }
+
+                                                                          updateData();
+                                                                        },
                                                                         child:
                                                                             const Text(
                                                                           "Convert",
@@ -901,7 +972,6 @@ class _StockShowState extends State<StockShow> {
                                                                                         });
 
                                                                                         print("Done");
-
 
                                                                                         // Update FeedStock bag Number Data
 
@@ -1247,362 +1317,396 @@ class _StockShowState extends State<StockShow> {
                                                             });
                                                       },
                                                     ),
-                                              ElevatedButton(
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStatePropertyAll(
-                                                          ColorName().appColor),
-                                                ),
-                                                child: const Text(
-                                                  "খুচরা বিক্রয় করুন",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16,
-                                                      fontFamily:
-                                                          "Josefin Sans"),
-                                                ),
-                                                onPressed: () async {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return StatefulBuilder(
-                                                            builder: (context,
-                                                                setState) {
-                                                          return AlertDialog(
-                                                              actions: [
-                                                                ElevatedButton(
-                                                                    style:
-                                                                        ButtonStyle(
-                                                                      elevation:
-                                                                          MaterialStatePropertyAll(
-                                                                              15),
-                                                                      backgroundColor:
-                                                                          MaterialStatePropertyAll(
-                                                                              ColorName().appColor),
-                                                                    ),
-                                                                    onPressed:
-                                                                        () {},
-                                                                    child:
-                                                                        const Text(
-                                                                      "Sale Now",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.white),
-                                                                    ))
-                                                              ],
-                                                              elevation: 50.0,
-                                                              title:
-                                                                  const Center(
-                                                                child: Text(
-                                                                  "খুচরা পরিমান বিক্রির তথ্য দিন",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          17,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .visible,
-                                                                      fontFamily:
-                                                                          "Josefin Sans"),
-                                                                ),
-                                                              ),
-                                                              content:
-                                                                  SingleChildScrollView(
-                                                                child: Column(
-                                                                  children: [
-                                                                    TextField(
-                                                                      keyboardType:
-                                                                          TextInputType
-                                                                              .number,
-                                                                      maxLength:
-                                                                          30,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        border:
-                                                                            OutlineInputBorder(),
-                                                                        labelText:
-                                                                            "বিক্রিত খুচরা পরিমান কেজি",
-                                                                        labelStyle: const TextStyle(
+                                              AllFeedStockData[i]
+                                                          ["KhuchraAmountKg"] <=
+                                                      0
+                                                  ? Text("")
+                                                  : ElevatedButton(
+                                                      style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStatePropertyAll(
+                                                                ColorName()
+                                                                    .appColor),
+                                                      ),
+                                                      child: const Text(
+                                                        "খুচরা বিক্রয় করুন",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                "Josefin Sans"),
+                                                      ),
+                                                      onPressed: () async {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return StatefulBuilder(
+                                                                  builder: (context,
+                                                                      setState) {
+                                                                return AlertDialog(
+                                                                    actions: [
+                                                                      ElevatedButton(
+                                                                          style:
+                                                                              ButtonStyle(
+                                                                            elevation:
+                                                                                const MaterialStatePropertyAll(15),
+                                                                            backgroundColor:
+                                                                                MaterialStatePropertyAll(ColorName().appColor),
+                                                                          ),
+                                                                          onPressed:
+                                                                              () async {
+                                                                            Future
+                                                                                SaveFeedSaledata() async {
+                                                                              setState(() {
+                                                                                loading = true;
+                                                                              });
+
+                                                                              final docUser = FirebaseFirestore.instance.collection("FeedKhuchraSaleInfo").doc(SaleID);
+
+                                                                              final SetData = {
+                                                                                "SaleID": SaleID,
+                                                                                "FeedName": AllFeedStockData[i]["FeedName"],
+                                                                                "SaleFeedKgNumber": KhuchraAmountController.text.trim(),
+                                                                                "StockID": AllFeedStockData[i]["StockID"],
+                                                                                "SaleFeedBagType": AllFeedStockData[i]["FeedBagType"],
+                                                                                "PerBagSalePrice": AllFeedStockData[i]["PerBagSalePrice"],
+                                                                                "PerKgSalePrice": AllFeedStockData[i]["PerKgSalePrice"],
+                                                                                "PerBagBuyingPrice": AllFeedStockData[i]["PerBagBuyingPrice"],
+                                                                                "PerKgBuyingPrice": AllFeedStockData[i]["PerKgBuyingPrice"],
+                                                                                "SaleAmount": int.parse(KhuchraAmountController.text.trim().toString()) * double.parse(AllFeedStockData[i]["PerKgSalePrice"]),
+                                                                                "JomaAmount": JomaController.text.trim(),
+                                                                                "DueAmount": (int.parse(KhuchraAmountController.text.trim()) * double.parse(AllFeedStockData[i]["PerKgSalePrice"])) - double.parse(JomaController.text.trim()),
+                                                                                "Profit": (int.parse(KhuchraAmountController.text.trim()) * double.parse(AllFeedStockData[i]["PerKgSalePrice"].toString())) - (int.parse(KhuchraAmountController.text.trim()) * double.parse(AllFeedStockData[i]["PerKgBuyingPrice"].toString())),
+                                                                                "CustomerName": CustomerNameController.text.trim(),
+                                                                                "CustomerAddress": CustomerAddressController.text.trim(),
+                                                                                "CustomerPhoneNo": CustomerPhoneNumberController.text.trim(),
+                                                                                "Date": DateTime.now().toIso8601String(),
+                                                                                "month": "${DateTime.now().month}/${DateTime.now().year}",
+                                                                                "year": "${DateTime.now().year}",
+                                                                              };
+
+                                                                              // user Data Update and show snackbar
+
+                                                                              docUser
+                                                                                  .set(SetData)
+                                                                                  .then((value) => setState(() {
+                                                                                        setState(() {
+                                                                                          loading = false;
+                                                                                        });
+
+                                                                                        print("Done");
+
+                                                                                        // Update FeedStock bag Number Data
+
+                                                                                        Future updateData() async {
+                                                                                          final docUser = FirebaseFirestore.instance.collection("FeedStockInfo").doc(AllFeedStockData[i]["StockID"]);
+
+                                                                                          final UpadateData = {
+                                                                                            "KhuchraAmountKg": (int.parse(AllFeedStockData[i]["KhuchraAmountKg"].toString()) - (int.parse(KhuchraAmountController.text.trim().toString())))
+                                                                                          };
+
+                                                                                          // user Data Update and show snackbar
+
+                                                                                          docUser
+                                                                                              .update(UpadateData)
+                                                                                              .then((value) => setState(() {
+                                                                                                    setState(() {
+                                                                                                      loading = false;
+                                                                                                    });
+
+                                                                                                    print("Done");
+
+                                                                                                    final snackBar = SnackBar(
+                                                                                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                                      elevation: 0,
+                                                                                                      behavior: SnackBarBehavior.floating,
+                                                                                                      backgroundColor: Colors.transparent,
+                                                                                                      content: AwesomeSnackbarContent(
+                                                                                                        title: 'Sale Successfull',
+                                                                                                        message: 'Sale Successfull',
+
+                                                                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                                        contentType: ContentType.success,
+                                                                                                      ),
+                                                                                                    );
+
+                                                                                                    ScaffoldMessenger.of(context)
+                                                                                                      ..hideCurrentSnackBar()
+                                                                                                      ..showSnackBar(snackBar);
+                                                                                                  }))
+                                                                                              .onError((error, stackTrace) => setState(() {
+                                                                                                    loading = false;
+
+                                                                                                    final snackBar = SnackBar(
+                                                                                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                                      elevation: 0,
+                                                                                                      behavior: SnackBarBehavior.floating,
+                                                                                                      backgroundColor: Colors.transparent,
+                                                                                                      content: AwesomeSnackbarContent(
+                                                                                                        title: 'Something Wrong!! Try again Later',
+                                                                                                        message: 'Something Wrong!! Try again Later',
+
+                                                                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                                        contentType: ContentType.failure,
+                                                                                                      ),
+                                                                                                    );
+
+                                                                                                    ScaffoldMessenger.of(context)
+                                                                                                      ..hideCurrentSnackBar()
+                                                                                                      ..showSnackBar(snackBar);
+
+                                                                                                    print(error);
+                                                                                                  }));
+                                                                                        }
+
+                                                                                        updateData();
+
+                                                                                        getFeedStockData();
+
+                                                                                        final snackBar = SnackBar(
+                                                                                          /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                          elevation: 0,
+                                                                                          behavior: SnackBarBehavior.floating,
+                                                                                          backgroundColor: Colors.transparent,
+                                                                                          content: AwesomeSnackbarContent(
+                                                                                            title: 'Stock Upload Successfull',
+                                                                                            message: 'Stock Upload Successfull',
+
+                                                                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                            contentType: ContentType.success,
+                                                                                          ),
+                                                                                        );
+
+                                                                                        ScaffoldMessenger.of(context)
+                                                                                          ..hideCurrentSnackBar()
+                                                                                          ..showSnackBar(snackBar);
+
+                                                                                        Navigator.of(context).pop();
+                                                                                      }))
+                                                                                  .onError((error, stackTrace) => setState(() {
+                                                                                        loading = false;
+
+                                                                                        final snackBar = SnackBar(
+                                                                                          /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                          elevation: 0,
+                                                                                          behavior: SnackBarBehavior.floating,
+                                                                                          backgroundColor: Colors.transparent,
+                                                                                          content: AwesomeSnackbarContent(
+                                                                                            title: 'Stock Upload Successfull',
+                                                                                            message: 'Stock Upload Successfull',
+
+                                                                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                            contentType: ContentType.failure,
+                                                                                          ),
+                                                                                        );
+
+                                                                                        ScaffoldMessenger.of(context)
+                                                                                          ..hideCurrentSnackBar()
+                                                                                          ..showSnackBar(snackBar);
+
+                                                                                        Navigator.of(context).pop();
+
+                                                                                        print(error);
+                                                                                      }));
+                                                                            }
+
+                                                                            SaveFeedSaledata();
+                                                                          },
+                                                                          child:
+                                                                              const Text(
+                                                                            "Sale Now",
+                                                                            style:
+                                                                                TextStyle(color: Colors.white),
+                                                                          ))
+                                                                    ],
+                                                                    elevation:
+                                                                        50.0,
+                                                                    title:
+                                                                        const Center(
+                                                                      child:
+                                                                          Text(
+                                                                        "খুচরা পরিমান বিক্রির তথ্য দিন",
+                                                                        style: TextStyle(
                                                                             color: Colors
                                                                                 .black,
                                                                             fontWeight: FontWeight
                                                                                 .bold,
                                                                             fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
-
-                                                                        hintText:
-                                                                            'বিক্রিত খুচরা পরিমান কেজি',
-                                                                        hintStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
-
-                                                                        //  enabledBorder: OutlineInputBorder(
-                                                                        //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                                                                        //     ),
-                                                                        focusedBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Theme.of(context).primaryColor),
-                                                                        ),
-                                                                        errorBorder:
-                                                                            const OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Color.fromARGB(255, 66, 125, 145)),
-                                                                        ),
+                                                                                17,
+                                                                            overflow:
+                                                                                TextOverflow.visible,
+                                                                            fontFamily: "Josefin Sans"),
                                                                       ),
-                                                                      controller:
-                                                                          KhuchraAmountController,
                                                                     ),
-                                                                    const SizedBox(
-                                                                      height: 6,
-                                                                    ),
-                                                                    TextField(
-                                                                      keyboardType:
-                                                                          TextInputType
-                                                                              .number,
-                                                                      maxLength:
-                                                                          30,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        border:
-                                                                            OutlineInputBorder(),
-                                                                        labelText:
-                                                                            'জমার পরিমান লিখুন',
-                                                                        labelStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
+                                                                    content:
+                                                                        SingleChildScrollView(
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          TextField(
+                                                                            keyboardType:
+                                                                                TextInputType.number,
+                                                                            maxLength:
+                                                                                30,
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              labelText: "বিক্রিত খুচরা পরিমান কেজি",
+                                                                              labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
 
-                                                                        hintText:
-                                                                            'জমার পরিমান লিখুন',
-                                                                        hintStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
+                                                                              hintText: 'বিক্রিত খুচরা পরিমান কেজি',
+                                                                              hintStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
 
-                                                                        //  enabledBorder: OutlineInputBorder(
-                                                                        //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                                                                        //     ),
-                                                                        focusedBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Theme.of(context).primaryColor),
-                                                                        ),
-                                                                        errorBorder:
-                                                                            const OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Color.fromARGB(255, 66, 125, 145)),
-                                                                        ),
+                                                                              //  enabledBorder: OutlineInputBorder(
+                                                                              //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                                                              //     ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                                                              ),
+                                                                              errorBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                                                              ),
+                                                                            ),
+                                                                            controller:
+                                                                                KhuchraAmountController,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            height:
+                                                                                6,
+                                                                          ),
+                                                                          TextField(
+                                                                            keyboardType:
+                                                                                TextInputType.number,
+                                                                            maxLength:
+                                                                                30,
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              labelText: 'জমার পরিমান লিখুন',
+                                                                              labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
+
+                                                                              hintText: 'জমার পরিমান লিখুন',
+                                                                              hintStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
+
+                                                                              //  enabledBorder: OutlineInputBorder(
+                                                                              //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                                                              //     ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                                                              ),
+                                                                              errorBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                                                              ),
+                                                                            ),
+                                                                            controller:
+                                                                                JomaController,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            height:
+                                                                                6,
+                                                                          ),
+                                                                          TextField(
+                                                                            keyboardType:
+                                                                                TextInputType.name,
+                                                                            maxLength:
+                                                                                80,
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              labelText: 'ক্রেতার নাম',
+                                                                              labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
+
+                                                                              hintText: 'ক্রেতার নাম',
+                                                                              hintStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
+
+                                                                              //  enabledBorder: OutlineInputBorder(
+                                                                              //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                                                              //     ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                                                              ),
+                                                                              errorBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                                                              ),
+                                                                            ),
+                                                                            controller:
+                                                                                CustomerNameController,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            height:
+                                                                                6,
+                                                                          ),
+                                                                          TextField(
+                                                                            keyboardType:
+                                                                                TextInputType.phone,
+                                                                            maxLength:
+                                                                                80,
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              labelText: 'ক্রেতার ফোন নং',
+                                                                              labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
+
+                                                                              hintText: 'ক্রেতার ফোন নং',
+                                                                              hintStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
+
+                                                                              //  enabledBorder: OutlineInputBorder(
+                                                                              //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                                                              //     ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                                                              ),
+                                                                              errorBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                                                              ),
+                                                                            ),
+                                                                            controller:
+                                                                                CustomerPhoneNumberController,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            height:
+                                                                                6,
+                                                                          ),
+                                                                          TextField(
+                                                                            keyboardType:
+                                                                                TextInputType.streetAddress,
+                                                                            maxLength:
+                                                                                180,
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              border: OutlineInputBorder(),
+                                                                              labelText: 'ক্রেতার ঠিকানা',
+                                                                              labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
+
+                                                                              hintText: 'ক্রেতার ঠিকানা',
+                                                                              hintStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14, fontFamily: "Josefin Sans"),
+
+                                                                              //  enabledBorder: OutlineInputBorder(
+                                                                              //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                                                              //     ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                                                              ),
+                                                                              errorBorder: const OutlineInputBorder(
+                                                                                borderSide: BorderSide(width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                                                              ),
+                                                                            ),
+                                                                            controller:
+                                                                                CustomerAddressController,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            height:
+                                                                                6,
+                                                                          ),
+                                                                        ],
                                                                       ),
-                                                                      controller:
-                                                                          JomaController,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height: 6,
-                                                                    ),
-                                                                    TextField(
-                                                                      keyboardType:
-                                                                          TextInputType
-                                                                              .name,
-                                                                      maxLength:
-                                                                          80,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        border:
-                                                                            OutlineInputBorder(),
-                                                                        labelText:
-                                                                            'ক্রেতার নাম',
-                                                                        labelStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
-
-                                                                        hintText:
-                                                                            'ক্রেতার নাম',
-                                                                        hintStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
-
-                                                                        //  enabledBorder: OutlineInputBorder(
-                                                                        //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                                                                        //     ),
-                                                                        focusedBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Theme.of(context).primaryColor),
-                                                                        ),
-                                                                        errorBorder:
-                                                                            const OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Color.fromARGB(255, 66, 125, 145)),
-                                                                        ),
-                                                                      ),
-                                                                      controller:
-                                                                          CustomerNameController,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height: 6,
-                                                                    ),
-                                                                    TextField(
-                                                                      keyboardType:
-                                                                          TextInputType
-                                                                              .phone,
-                                                                      maxLength:
-                                                                          80,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        border:
-                                                                            OutlineInputBorder(),
-                                                                        labelText:
-                                                                            'ক্রেতার ফোন নং',
-                                                                        labelStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
-
-                                                                        hintText:
-                                                                            'ক্রেতার ফোন নং',
-                                                                        hintStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
-
-                                                                        //  enabledBorder: OutlineInputBorder(
-                                                                        //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                                                                        //     ),
-                                                                        focusedBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Theme.of(context).primaryColor),
-                                                                        ),
-                                                                        errorBorder:
-                                                                            const OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Color.fromARGB(255, 66, 125, 145)),
-                                                                        ),
-                                                                      ),
-                                                                      controller:
-                                                                          CustomerPhoneNumberController,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height: 6,
-                                                                    ),
-                                                                    TextField(
-                                                                      keyboardType:
-                                                                          TextInputType
-                                                                              .streetAddress,
-                                                                      maxLength:
-                                                                          180,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        border:
-                                                                            OutlineInputBorder(),
-                                                                        labelText:
-                                                                            'ক্রেতার ঠিকানা',
-                                                                        labelStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
-
-                                                                        hintText:
-                                                                            'ক্রেতার ঠিকানা',
-                                                                        hintStyle: const TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                "Josefin Sans"),
-
-                                                                        //  enabledBorder: OutlineInputBorder(
-                                                                        //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                                                                        //     ),
-                                                                        focusedBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Theme.of(context).primaryColor),
-                                                                        ),
-                                                                        errorBorder:
-                                                                            const OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: Color.fromARGB(255, 66, 125, 145)),
-                                                                        ),
-                                                                      ),
-                                                                      controller:
-                                                                          CustomerAddressController,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height: 6,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ));
-                                                        });
-                                                      });
-                                                },
-                                              )
+                                                                    ));
+                                                              });
+                                                            });
+                                                      },
+                                                    )
                                             ],
                                           )
                                         ],
