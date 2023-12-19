@@ -586,7 +586,7 @@ class _StockUploadState extends State<StockUpload> {
                                                         .doc(StockID);
 
                                                 final SetData = {
-                                                  "StockID ": StockID,
+                                                  "StockID": StockID,
                                                   "FeedName": FeedNameController
                                                       .text
                                                       .trim(),

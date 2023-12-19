@@ -870,7 +870,7 @@ class _StockShowState extends State<StockShow> {
                                                                               final docUser = FirebaseFirestore.instance.collection("FeedSaleInfo").doc(SaleID);
 
                                                                               final SetData = {
-                                                                                "SaleID ": SaleID,
+                                                                                "SaleID": SaleID,
                                                                                 "FeedName": AllFeedStockData[i]["FeedName"],
                                                                                 "SaleFeedBagNumber": SaleBagNumberController.text.trim(),
                                                                                 "StockID": AllFeedStockData[i]["StockID"],
@@ -901,6 +901,72 @@ class _StockShowState extends State<StockShow> {
                                                                                         });
 
                                                                                         print("Done");
+
+
+                                                                                        // Update FeedStock bag Number Data
+
+                                                                                        Future updateData() async {
+                                                                                          final docUser = FirebaseFirestore.instance.collection("FeedStockInfo").doc(AllFeedStockData[i]["StockID"]);
+
+                                                                                          final UpadateData = {
+                                                                                            "FeedBagNumber": (int.parse(AllFeedStockData[i]["FeedBagNumber"].toString()) - (int.parse(SaleBagNumberController.text.trim().toString()))).toString()
+                                                                                          };
+
+                                                                                          // user Data Update and show snackbar
+
+                                                                                          docUser
+                                                                                              .update(UpadateData)
+                                                                                              .then((value) => setState(() {
+                                                                                                    setState(() {
+                                                                                                      loading = false;
+                                                                                                    });
+
+                                                                                                    print("Done");
+
+                                                                                                    final snackBar = SnackBar(
+                                                                                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                                      elevation: 0,
+                                                                                                      behavior: SnackBarBehavior.floating,
+                                                                                                      backgroundColor: Colors.transparent,
+                                                                                                      content: AwesomeSnackbarContent(
+                                                                                                        title: 'Sale Successfull',
+                                                                                                        message: 'Sale Successfull',
+
+                                                                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                                        contentType: ContentType.success,
+                                                                                                      ),
+                                                                                                    );
+
+                                                                                                    ScaffoldMessenger.of(context)
+                                                                                                      ..hideCurrentSnackBar()
+                                                                                                      ..showSnackBar(snackBar);
+                                                                                                  }))
+                                                                                              .onError((error, stackTrace) => setState(() {
+                                                                                                    loading = false;
+
+                                                                                                    final snackBar = SnackBar(
+                                                                                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                                      elevation: 0,
+                                                                                                      behavior: SnackBarBehavior.floating,
+                                                                                                      backgroundColor: Colors.transparent,
+                                                                                                      content: AwesomeSnackbarContent(
+                                                                                                        title: 'Something Wrong!! Try again Later',
+                                                                                                        message: 'Something Wrong!! Try again Later',
+
+                                                                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                                        contentType: ContentType.failure,
+                                                                                                      ),
+                                                                                                    );
+
+                                                                                                    ScaffoldMessenger.of(context)
+                                                                                                      ..hideCurrentSnackBar()
+                                                                                                      ..showSnackBar(snackBar);
+
+                                                                                                    print(error);
+                                                                                                  }));
+                                                                                        }
+
+                                                                                        updateData();
 
                                                                                         getFeedStockData();
 
