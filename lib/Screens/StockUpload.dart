@@ -121,7 +121,7 @@ class _StockUploadState extends State<StockUpload> {
           body: TabBarView(
             children: [
               // First Tab
-             loading?CircularProgressIndicator(): SingleChildScrollView(
+             loading?Center(child: CircularProgressIndicator()): SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -984,7 +984,119 @@ class _StockUploadState extends State<StockUpload> {
                                           ),
                                         ),
                                       ),
-                                      btnOkOnPress: () async {},
+                                      btnOkOnPress: () async {
+
+
+
+
+
+                                        Future SaveChickenStockdata() async {
+                                          setState(() {
+                                            loading = true;
+                                          });
+
+                                          final docUser = FirebaseFirestore
+                                              .instance
+                                              .collection("ChickenStockInfo")
+                                              .doc(StockID);
+
+                                          final SetData = {
+                                            "StockID ": StockID,
+                                            "ChickenNumber": ChickenNumberController.text.trim(),
+                                            "ChickenType":
+                                                ChickenTypeValue.toString(),
+                                            "ChickenSalePrice":
+                                                PerChickenSalePrice.text.trim(),
+                                            "ChickenBuyingPrice":
+                                                PerChickenBuyingPrice.text.trim(),
+                                            "Date": DateTime.now()
+                                                .toIso8601String(),
+                                            "month":
+                                                "${DateTime.now().month}/${DateTime.now().year}",
+                                            "year": "${DateTime.now().year}",
+                                          };
+
+                                          // user Data Update and show snackbar
+
+                                          docUser
+                                              .set(SetData)
+                                              .then((value) => setState(() {
+                                                    setState(() {
+                                                      loading = false;
+                                                    });
+
+                                                    print("Done");
+
+                                                    final snackBar = SnackBar(
+                                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                                      elevation: 0,
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      content:
+                                                          AwesomeSnackbarContent(
+                                                        title:
+                                                            'Stock Upload Successfull',
+                                                        message:
+                                                            'Stock Upload Successfull',
+
+                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                        contentType:
+                                                            ContentType.success,
+                                                      ),
+                                                    );
+
+                                                    ScaffoldMessenger.of(
+                                                        context)
+                                                      ..hideCurrentSnackBar()
+                                                      ..showSnackBar(snackBar);
+                                                  }))
+                                              .onError((error, stackTrace) =>
+                                                  setState(() {
+                                                    loading = false;
+
+                                                    final snackBar = SnackBar(
+                                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                                      elevation: 0,
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      content:
+                                                          AwesomeSnackbarContent(
+                                                        title:
+                                                            'Stock Upload Successfull',
+                                                        message:
+                                                            'Stock Upload Successfull',
+
+                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                        contentType:
+                                                            ContentType.failure,
+                                                      ),
+                                                    );
+
+                                                    ScaffoldMessenger.of(
+                                                        context)
+                                                      ..hideCurrentSnackBar()
+                                                      ..showSnackBar(snackBar);
+
+                                                    print(error);
+                                                  }));
+                                        }
+
+                                        SaveChickenStockdata();
+
+
+
+
+
+
+
+
+
+
+                                      },
                                       btnCancelOnPress: () {},
                                       btnOkColor: ColorName().appColor,
                                       btnCancelColor:
