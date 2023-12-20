@@ -1068,7 +1068,7 @@ class _StockUploadState extends State<StockUpload> {
                                                         .doc(StockID);
 
                                                 final SetData = {
-                                                  "StockID ": StockID,
+                                                  "StockID": StockID,
                                                   "ChickenNumber":
                                                       ChickenNumberController
                                                           .text
@@ -1582,7 +1582,7 @@ class _StockUploadState extends State<StockUpload> {
                                                         .doc(StockID);
 
                                                 final SetData = {
-                                                  "StockID ": StockID,
+                                                  "StockID": StockID,
                                                   "MedicinName":
                                                       MedicineNameController
                                                           .text

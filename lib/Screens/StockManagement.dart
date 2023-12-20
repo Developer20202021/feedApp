@@ -1717,12 +1717,16 @@ class _StockShowState extends State<StockShow> {
                         ),
 
               // second Tab
-              SingleChildScrollView(
+             loading?Center(child: CircularProgressIndicator(),): SingleChildScrollView(
                 child: Column(
                   children: [
                     SizedBox(
                       height: 20,
                     ),
+
+
+
+                for(int x =0; x<AllChickenStockData.length; x++)
                     InkWell(
                       onTap: () async {
                         showDialog(
@@ -1792,7 +1796,7 @@ class _StockShowState extends State<StockShow> {
                           elevation: 8.0,
                           child: Column(
                             children: [
-                              BagAmount <= 0
+                              int.parse(AllChickenStockData[x]["ChickenNumber"].toString()) <= 0
                                   ? Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment:
@@ -1810,9 +1814,9 @@ class _StockShowState extends State<StockShow> {
                                   : Text(""),
 
                               ListTile(
-                                title: const Text(
-                                  "বাচ্চার ধরণঃ সোনালী বাচ্চা",
-                                  style: TextStyle(
+                                title:  Text(
+                                  "বাচ্চার ধরণঃ ${AllChickenStockData[x]["ChickenType"]}",
+                                  style:const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 17,
@@ -1824,7 +1828,7 @@ class _StockShowState extends State<StockShow> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "বাচ্চার সংখ্যাঃ ১০ টি",
+                                      "বাচ্চার সংখ্যাঃ ${AllChickenStockData[x]["ChickenNumber"]} টি",
                                       style: TextStyle(
                                           color: Colors.green.shade400,
                                           fontWeight: FontWeight.bold,
@@ -1835,7 +1839,7 @@ class _StockShowState extends State<StockShow> {
                                       height: 5,
                                     ),
                                     Text(
-                                      "বাচ্চার ধরণঃ সোনালী বাচ্চা",
+                                      "বাচ্চার ধরণঃ ${AllChickenStockData[x]["ChickenType"]}",
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
@@ -1846,7 +1850,7 @@ class _StockShowState extends State<StockShow> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "প্রতি বাচ্চার বিক্রয় মূল্যঃ  টাকা",
+                                      "প্রতি বাচ্চার বিক্রয় মূল্যঃ ${AllChickenStockData[x]["ChickenSalePrice"]} টাকা",
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
@@ -1857,7 +1861,7 @@ class _StockShowState extends State<StockShow> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "প্রতি বাচ্চার ক্রয় মূল্যঃ টাকা",
+                                      "প্রতি বাচ্চার ক্রয় মূল্যঃ ${AllChickenStockData[x]["ChickenBuyingPrice"]} টাকা",
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
@@ -1867,15 +1871,7 @@ class _StockShowState extends State<StockShow> {
                                     const SizedBox(
                                       height: 2,
                                     ),
-                                    Text(
-                                      "গত মাসে বিক্রিত বাচ্চার সংখ্যাঃ 7 টি",
-                                      style: TextStyle(
-                                          color: Colors.pink.shade400,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          overflow: TextOverflow.ellipsis,
-                                          fontFamily: "Josefin Sans"),
-                                    ),
+                                 
                                     const SizedBox(
                                       height: 2,
                                     ),
@@ -1935,14 +1931,185 @@ class _StockShowState extends State<StockShow> {
                                                     ElevatedButton(
                                                         style: ButtonStyle(
                                                           elevation:
-                                                              MaterialStatePropertyAll(
+                                                              const MaterialStatePropertyAll(
                                                                   15),
                                                           backgroundColor:
                                                               MaterialStatePropertyAll(
                                                                   ColorName()
                                                                       .appColor),
                                                         ),
-                                                        onPressed: () {},
+                                                        onPressed: () async{
+                                                    
+
+
+                                                         Future
+                                                                                SaveFeedSaledata() async {
+                                                                              setState(() {
+                                                                                loading = true;
+                                                                              });
+
+                                                                              final docUser = FirebaseFirestore.instance.collection("ChickenSaleInfo").doc(SaleID);
+
+                                                                              final SetData = {
+                                                                                "SaleID": SaleID,
+                                                                                "ChickenType":AllChickenStockData[x]["ChickenType"],
+                                                                                "SaleChickenNumber":ChickenNumberController.text.trim(),
+                                                                                "StockID":AllChickenStockData[x]["StockID"],
+
+                                                                                "SaleAmount": int.parse(ChickenNumberController.text.trim().toString()) * double.parse(AllChickenStockData[x]["ChickenSalePrice"]),
+                                                                                "JomaAmount": JomaController.text.trim(),
+                                                                                "DueAmount": (int.parse(ChickenNumberController.text.trim().toString()) * double.parse(AllChickenStockData[x]["ChickenSalePrice"])) - double.parse(JomaController.text.trim()),
+
+                                                                                "Profit": ((int.parse(ChickenNumberController.text.trim().toString()) * double.parse(AllChickenStockData[x]["ChickenSalePrice"]))-(int.parse(ChickenNumberController.text.trim().toString()) * double.parse(AllChickenStockData[x]["ChickenBuyingPrice"]))),
+
+                                                                                "CustomerName": CustomerNameController.text.trim(),
+                                                                                "CustomerAddress": CustomerAddressController.text.trim(),
+                                                                                "CustomerPhoneNo": CustomerPhoneNumberController.text.trim(),
+                                                                                "Date": DateTime.now().toIso8601String(),
+                                                                                "month": "${DateTime.now().month}/${DateTime.now().year}",
+                                                                                "year": "${DateTime.now().year}",
+                                                                              };
+
+                                                                              // user Data Update and show snackbar
+
+                                                                              docUser
+                                                                                  .set(SetData)
+                                                                                  .then((value) => setState(() async{
+                                                                                        setState(() {
+                                                                                          loading = false;
+                                                                                        });
+
+                                                                                        print("Done");
+
+                                                                                        // Update FeedStock bag Number Data
+
+                                                                                        Future updateData() async {
+                                                                                          final docUser = FirebaseFirestore.instance.collection("ChickenStockInfo").doc(AllChickenStockData[x]["StockID"]);
+
+                                                                                          final UpadateData = {
+                                                                                            "ChickenNumber": (int.parse(AllChickenStockData[x]["ChickenNumber"].toString()) - (int.parse(ChickenNumberController.text.trim().toString()))).toString()
+                                                                                          };
+
+                                                                                          // user Data Update and show snackbar
+
+                                                                                          docUser
+                                                                                              .update(UpadateData)
+                                                                                              .then((value) => setState(() {
+                                                                                                    setState(() {
+                                                                                                      loading = false;
+                                                                                                    });
+
+                                                                                                    print("Done");
+
+                                                                                                    final snackBar = SnackBar(
+                                                                                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                                      elevation: 0,
+                                                                                                      behavior: SnackBarBehavior.floating,
+                                                                                                      backgroundColor: Colors.transparent,
+                                                                                                      content: AwesomeSnackbarContent(
+                                                                                                        title: 'Sale Successfull',
+                                                                                                        message: 'Sale Successfull',
+
+                                                                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                                        contentType: ContentType.success,
+                                                                                                      ),
+                                                                                                    );
+
+                                                                                                    ScaffoldMessenger.of(context)
+                                                                                                      ..hideCurrentSnackBar()
+                                                                                                      ..showSnackBar(snackBar);
+                                                                                                  }))
+                                                                                              .onError((error, stackTrace) => setState(() {
+                                                                                                    loading = false;
+
+                                                                                                    final snackBar = SnackBar(
+                                                                                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                                      elevation: 0,
+                                                                                                      behavior: SnackBarBehavior.floating,
+                                                                                                      backgroundColor: Colors.transparent,
+                                                                                                      content: AwesomeSnackbarContent(
+                                                                                                        title: 'Something Wrong!! Try again Later',
+                                                                                                        message: 'Something Wrong!! Try again Later',
+
+                                                                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                                        contentType: ContentType.failure,
+                                                                                                      ),
+                                                                                                    );
+
+                                                                                                    ScaffoldMessenger.of(context)
+                                                                                                      ..hideCurrentSnackBar()
+                                                                                                      ..showSnackBar(snackBar);
+
+                                                                                                    print(error);
+                                                                                                  }));
+                                                                                        }
+
+                                                                                        updateData();
+
+                                                                                        getChickenStockData();
+
+                                                                                        final snackBar = SnackBar(
+                                                                                          /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                          elevation: 0,
+                                                                                          behavior: SnackBarBehavior.floating,
+                                                                                          backgroundColor: Colors.transparent,
+                                                                                          content: AwesomeSnackbarContent(
+                                                                                            title: 'Stock Upload Successfull',
+                                                                                            message: 'Stock Upload Successfull',
+
+                                                                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                            contentType: ContentType.success,
+                                                                                          ),
+                                                                                        );
+
+                                                                                        ScaffoldMessenger.of(context)
+                                                                                          ..hideCurrentSnackBar()
+                                                                                          ..showSnackBar(snackBar);
+
+                                                                                        Navigator.of(context).pop();
+                                                                                      }))
+                                                                                  .onError((error, stackTrace) => setState(() {
+                                                                                        loading = false;
+
+                                                                                        final snackBar = SnackBar(
+                                                                                          /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                          elevation: 0,
+                                                                                          behavior: SnackBarBehavior.floating,
+                                                                                          backgroundColor: Colors.transparent,
+                                                                                          content: AwesomeSnackbarContent(
+                                                                                            title: 'Stock Upload Successfull',
+                                                                                            message: 'Stock Upload Successfull',
+
+                                                                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                            contentType: ContentType.failure,
+                                                                                          ),
+                                                                                        );
+
+                                                                                        ScaffoldMessenger.of(context)
+                                                                                          ..hideCurrentSnackBar()
+                                                                                          ..showSnackBar(snackBar);
+
+                                                                                        Navigator.of(context).pop();
+
+                                                                                        print(error);
+                                                                                      }));
+                                                                            }
+
+                                                                            SaveFeedSaledata();
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                        },
                                                         child: const Text(
                                                           "Sale Now",
                                                           style: TextStyle(
@@ -1969,7 +2136,7 @@ class _StockShowState extends State<StockShow> {
                                                       SingleChildScrollView(
                                                     child: Column(
                                                       children: [
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 10,
                                                         ),
                                                         TextField(
@@ -1983,7 +2150,7 @@ class _StockShowState extends State<StockShow> {
                                                             border:
                                                                 OutlineInputBorder(),
                                                             labelText:
-                                                                'বাচ্চার ধরণঃ সোনালী',
+                                                                'বাচ্চার ধরণঃ ${AllChickenStockData[x]["ChickenType"]}',
                                                             labelStyle: const TextStyle(
                                                                 color: Colors
                                                                     .black,
@@ -1995,7 +2162,7 @@ class _StockShowState extends State<StockShow> {
                                                                     "Josefin Sans"),
 
                                                             hintText:
-                                                                'বাচ্চার ধরণঃ সোনালী',
+                                                                'বাচ্চার ধরণঃ ${AllChickenStockData[x]["ChickenType"]}',
                                                             hintStyle: const TextStyle(
                                                                 color: Colors
                                                                     .black,
@@ -2358,6 +2525,8 @@ class _StockShowState extends State<StockShow> {
                   ],
                 ),
               ),
+
+              
 
               // Third Tab
               SingleChildScrollView(
