@@ -161,14 +161,14 @@ bool _passVisibility = true;
 
 
                            
-                    // Center(
-                    //   child: Lottie.asset(
-                    //   'lib/images/animation_lk8fkoa8.json',
-                    //     fit: BoxFit.cover,
-                    //     width: 200,
-                    //     height: 200
-                    //   ),
-                    // ),
+                    Center(
+                      child: Lottie.asset(
+                      'lib/Images/logIn_lottie.json',
+                        fit: BoxFit.cover,
+                        width: 200,
+                        height: 200
+                      ),
+                    ),
             
             SizedBox(
                       height: 20,
