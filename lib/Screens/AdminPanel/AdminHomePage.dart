@@ -3,6 +3,7 @@ import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
 import 'package:feed/Screens/AdminPanel/DailySales.dart';
 import 'package:feed/Screens/AdminPanel/DueCustomers.dart';
 import 'package:feed/Screens/AdminPanel/MonthlySales.dart';
+import 'package:feed/Screens/AdminPanel/YearlySales.dart';
 import 'package:feed/Screens/StockManagement.dart';
 import 'package:feed/Screens/StockUpload.dart';
 import 'package:flutter/material.dart';
@@ -511,7 +512,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
     else if (index == 5) {
 
-      //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DailySales()));
+       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const YearlySales()));
       
     }
 

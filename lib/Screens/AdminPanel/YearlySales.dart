@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class MonthlySales extends StatefulWidget {
-  const MonthlySales({super.key});
+class YearlySales extends StatefulWidget {
+  const YearlySales({super.key});
 
   @override
-  State<MonthlySales> createState() => _MonthlySalesState();
+  State<YearlySales> createState() => _YearlySalesState();
 }
 
-class _MonthlySalesState extends State<MonthlySales> {
+class _YearlySalesState extends State<YearlySales> {
 
 
   Map<String, double> dataMap = {
@@ -49,7 +49,7 @@ class _MonthlySalesState extends State<MonthlySales> {
 
   bool loading = false;
 
-  var VisiblePaymentMonth = "${DateTime.now().month.toString()}/${DateTime.now().year.toString()}";
+  var VisiblePaymentMonth = "${DateTime.now().year.toString()}";
   
 
 
@@ -68,7 +68,7 @@ class _MonthlySalesState extends State<MonthlySales> {
           var adminSetMonth = rangeStartDate.month;
           var adminSetYear = rangeStartDate.year;
 
-          var paymentMonth = "${adminSetMonth}/${adminSetYear}";
+          var paymentMonth = "${adminSetYear}";
 
           VisiblePaymentMonth = paymentMonth;
 
@@ -111,7 +111,7 @@ class _MonthlySalesState extends State<MonthlySales> {
 
 
 
- var PaymentMonth = "${DateTime.now().month.toString()}/${DateTime.now().year.toString()}";
+ var PaymentMonth = "${DateTime.now().year.toString()}";
 
 
   var DataLoad = ""; 
@@ -134,7 +134,7 @@ class _MonthlySalesState extends State<MonthlySales> {
         FirebaseFirestore.instance.collection('FeedSaleInfo');
 
     // // all Due Query Count
-       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("month", isEqualTo: SaleMonth);
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("year", isEqualTo: SaleMonth);
 
     QuerySnapshot queryDueSnapshot =
         await _ThisMonthFeddSaleInfoRefQueryCount.get();
@@ -222,7 +222,7 @@ print("____From_____DataMap_______${dataMap}");
         FirebaseFirestore.instance.collection('FeedKhuchraSaleInfo');
 
     // // all Due Query Count
-       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("month", isEqualTo: SaleMonth);
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("year", isEqualTo: SaleMonth);
 
     QuerySnapshot queryDueSnapshot =
         await _ThisMonthFeddSaleInfoRefQueryCount.get();
@@ -305,7 +305,7 @@ List AllChickenBuySaleLavData = [];
         FirebaseFirestore.instance.collection('ChickenSaleInfo');
 
     // // all Due Query Count
-       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("month", isEqualTo: SaleMonth);
+       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("year", isEqualTo: SaleMonth);
 
     QuerySnapshot queryDueSnapshot =
         await _ThisMonthChickenSaleInfoRefQueryCount.get();
@@ -387,7 +387,7 @@ List AllMedicinBuySaleLavData = [];
         FirebaseFirestore.instance.collection('MedicinSaleInfo');
 
     // // all Due Query Count
-       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("month", isEqualTo: SaleMonth);
+       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("year", isEqualTo: SaleMonth);
 
     QuerySnapshot queryDueSnapshot =
         await _ThisMonthChickenSaleInfoRefQueryCount.get();

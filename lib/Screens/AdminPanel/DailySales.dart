@@ -15,6 +15,35 @@ class DailySales extends StatefulWidget {
 class _DailySalesState extends State<DailySales> {
 
 
+  Map<String, double> dataMap = {
+    "ক্রয়": 0,
+    "বিক্রয়": 0,
+    "লাভ": 0,
+  };
+
+  Map<String, double> ChickenSaleBuyData = {
+    "ক্রয়": 0,
+    "বিক্রয়": 0,
+    "লাভ": 0,
+  };
+
+
+    Map<String, double> MedicinSaleBuyData = {
+    "ক্রয়": 0,
+    "বিক্রয়": 0,
+    "লাভ": 0,
+  };
+
+  Map<String, double> KhuchraSaleBuyData = {
+    "ক্রয়": 0,
+    "বিক্রয়": 0,
+    "লাভ": 0,
+  };
+
+  Map<String, double> bagAndkhuchraChartData = {
+    "বস্তা": 0,
+    "খুচরা": 0,
+  };
 
     // এখানে Date দিয়ে Data fetch করতে হবে। 
 
@@ -39,14 +68,18 @@ class _DailySalesState extends State<DailySales> {
           var adminSetMonth = rangeStartDate.month;
           var adminSetYear = rangeStartDate.year;
 
-          var paymentMonth = "${adminSetMonth}/${adminSetYear}";
+          var paymentMonth = "${adminSetDay}/${adminSetMonth}/${adminSetYear}";
 
           VisiblePaymentMonth = paymentMonth;
 
           print("${adminSetDay}/${adminSetMonth}/${adminSetYear}");
 
 
-          getData(paymentMonth);
+          getChickenBuySaleLavData(paymentMonth);
+          getMedicinBuySaleLavData(paymentMonth);
+          getFeedBuySaleLavData(paymentMonth);
+          getFeedKhuchraBuySaleLavData(paymentMonth);
+
 
 
 
@@ -78,67 +111,258 @@ class _DailySalesState extends State<DailySales> {
 
 
 
- var PaymentMonth = "${DateTime.now().month.toString()}/${DateTime.now().year.toString()}";
+ var PaymentMonth = "${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}";
 
 
-   var DataLoad = ""; 
+  var DataLoad = ""; 
+  var FirstTabDataLoad = "";
+  var SecondTabDataLoad ="";
+  var ThirdTabDataLoad = "";
   // Firebase All Customer Data Load
+  double ThisMonthSaleBagNumber = 0;
+  double ThisMonthKhuchraKg = 0;
 
-List  AllData = [{},{},{},{},{}];
-    int moneyAdd = 0;
+  List AllFeedBuySaleLavData = [];
 
-  CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('CourseFeePayHistory');
+  Future<void> getFeedBuySaleLavData(String SaleMonth) async {
+    setState(() {
+      loading = true;
+    });
 
-Future<void> getData(String paymentDate) async {
     // Get docs from collection reference
-    // QuerySnapshot querySnapshot = await _collectionRef.get();
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedSaleInfo');
 
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("Date", isEqualTo: SaleMonth);
 
-    Query query = _collectionRef.where("month", isEqualTo: paymentDate);
-    QuerySnapshot querySnapshot = await query.get();
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
 
-    // Get data from docs and convert map to List
-     AllData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
 
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        FirstTabDataLoad = "0";
+        dataMap = {
+                "ক্রয়": 0,
+                "বিক্রয়": 0,
+                "লাভ": 0,
+              };
 
-     moneyAdd = 0;
-
-
-
-
-     if (AllData.length == 0) {
-       setState(() {
-      
-        DataLoad = "0";
+          getFeedKhuchraBuySaleLavData(SaleMonth);
         loading = false;
       });
-       
-     } else {
-
+    } else {
       setState(() {
-        DataLoad = "";
+        AllFeedBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllFeedBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllFeedBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllFeedBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllFeedBuySaleLavData[i]["PerBagBuyingPrice"].toString())*double.parse(AllFeedBuySaleLavData[i]["SaleFeedBagNumber"].toString()));
+
+        setState(() {
+          ThisMonthSaleBagNumber = ThisMonthSaleBagNumber + int.parse(AllFeedBuySaleLavData[i]["SaleFeedBagNumber"].toString());
+
+        });
         
-      });
+      }
 
-      for (var i = 0; i < AllData.length; i++) {
-
-       var money = AllData[i]["pay"];
-      int moneyInt = int.parse(money);
-
-      
 
       setState(() {
-        moneyAdd = moneyAdd + moneyInt;
-        AllData = querySnapshot.docs.map((doc) => doc.data()).toList();
+        loading = false;
+        dataMap = {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              };
+
+          getFeedKhuchraBuySaleLavData(SaleMonth);
+      });
+
+
+print("____From_____DataMap_______${dataMap}");
+    }
+
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+  List AllFeedKhuchraBuySaleLavData = [];
+
+  Future<void> getFeedKhuchraBuySaleLavData(String SaleMonth) async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedKhuchraSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("Date", isEqualTo: SaleMonth);
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
         loading = false;
       });
+    } else {
+      setState(() {
+        AllFeedKhuchraBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
        
-     }
+      });
 
-     print(moneyAdd);
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllFeedKhuchraBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllFeedKhuchraBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllFeedKhuchraBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllFeedKhuchraBuySaleLavData[i]["PerKgBuyingPrice"].toString())*double.parse(AllFeedKhuchraBuySaleLavData[i]["SaleFeedKgNumber"].toString()));
+        setState(() {
+          
+          ThisMonthKhuchraKg = ThisMonthKhuchraKg + int.parse(AllFeedKhuchraBuySaleLavData[i]["SaleFeedKgNumber"].toString());
+        });
+        
+      }
+
+
+      setState(() {
+        loading = false;
+        KhuchraSaleBuyData = {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              };
+        
+        bagAndkhuchraChartData = {
+                "বস্তা": ThisMonthSaleBagNumber,
+                "খুচরা": ThisMonthKhuchraKg,
+              };
+      });
+
+
+print("____From_____DataMap_______${KhuchraSaleBuyData}");
+    }
+
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+List AllChickenBuySaleLavData = [];
+
+  Future<void> getChickenBuySaleLavData(String SaleMonth) async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthChickenSaleInfoRef =
+        FirebaseFirestore.instance.collection('ChickenSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("Date", isEqualTo: SaleMonth);
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthChickenSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        SecondTabDataLoad = "0";
+        ChickenSaleBuyData = {
+                "ক্রয়": 0,
+                "বিক্রয়": 0,
+                "লাভ": 0,
+              };
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllChickenBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
        
-     }
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllChickenBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllChickenBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllChickenBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllChickenBuySaleLavData[i]["ChickenBuyingPrice"].toString())*double.parse(AllChickenBuySaleLavData[i]["SaleChickenNumber"].toString()));
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+      ChickenSaleBuyData = {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              };
+
+      });
+
+
+print("____From_____DataMap_______${dataMap}");
+    }
+
+    
+  }
 
 
 
@@ -148,27 +372,81 @@ Future<void> getData(String paymentDate) async {
 
 
 
-    //  for (var i = 0; i < AllData.length; i++) {
 
-    //    var money = AllData[i]["SalePrice"];
-    //   int moneyInt = int.parse(money);
 
-      
 
-    //   setState(() {
-    //     moneyAdd = moneyAdd + moneyInt;
-    //   });
+List AllMedicinBuySaleLavData = [];
+
+  Future<void> getMedicinBuySaleLavData(String SaleMonth) async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthChickenSaleInfoRef =
+        FirebaseFirestore.instance.collection('MedicinSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("Date", isEqualTo: SaleMonth);
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthChickenSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        ThirdTabDataLoad = "0";
+
+        MedicinSaleBuyData = {
+                "ক্রয়": 0,
+                "বিক্রয়": 0,
+                "লাভ": 0,
+              };
+        
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllMedicinBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
        
-    //  }
+      });
 
-    //  print(moneyAdd);
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
 
-    //  setState(() {
-    //    AllData = querySnapshot.docs.map((doc) => doc.data()).toList();
-    //  });
 
-    print(AllData);
-}
+      for (var i = 0; i < AllMedicinBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllMedicinBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllMedicinBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllMedicinBuySaleLavData[i]["MedicinBuyingPrice"].toString())*double.parse(AllMedicinBuySaleLavData[i]["MedicinNumber"].toString()));
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+      MedicinSaleBuyData = {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              };
+
+      });
+
+
+print("____From_____DataMap_______${dataMap}");
+    }
+
+    
+  }
 
 
 
@@ -188,7 +466,15 @@ Future<void> getData(String paymentDate) async {
 
 
 
+@override
+  void initState() {
 
+    getFeedBuySaleLavData(PaymentMonth);
+    getChickenBuySaleLavData(PaymentMonth);
+    getMedicinBuySaleLavData(PaymentMonth);
+    // TODO: implement initState
+    super.initState();
+  }
 
 
 
@@ -205,7 +491,7 @@ Future<void> getData(String paymentDate) async {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-          "${VisiblePaymentMonth} বিক্রিয় করা তথ্য"
+          "${VisiblePaymentMonth} বিক্রয় করা তথ্য"
               .toBijoy,
               style: const TextStyle(
               color: Colors.white,
@@ -231,7 +517,7 @@ Future<void> getData(String paymentDate) async {
               
     loading? Center(
         child: CircularProgressIndicator(color: ColorName().appColor,)
-      ):DataLoad == "0"? Center(child: Text("No Data Available")): RefreshIndicator(
+      ):FirstTabDataLoad == "0"? Center(child: Text("No Data Available")): RefreshIndicator(
         onRefresh: refresh,
         child: InkWell(
           onTap: ()async{
@@ -250,7 +536,7 @@ Future<void> getData(String paymentDate) async {
             color:ColorName().appColor,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("আজকের বিক্রয় ১১০ টাকা লাভ ১১০ টাকা ",    
+              child: Text("${VisiblePaymentMonth} বিক্রয় ${dataMap["বিক্রয়"]} টাকা লাভ ${dataMap["লাভ"]} টাকা ",    
                                        
                                        style: TextStyle(
                                               color: Colors.white,
@@ -280,7 +566,7 @@ Future<void> getData(String paymentDate) async {
     });
           },
           child: ListView.separated(
-                itemCount: AllData.length,
+                itemCount: AllFeedBuySaleLavData.length,
                 separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 15,),
                 itemBuilder: (BuildContext context, int index) {
               
@@ -309,7 +595,7 @@ Future<void> getData(String paymentDate) async {
                           
                                            
                             
-                                  title: Text("১২০ টাকা",    
+                                  title: Text("${AllFeedBuySaleLavData[index]["SaleAmount"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
@@ -322,7 +608,7 @@ Future<void> getData(String paymentDate) async {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                           
-                                     Text("ক্রেতার নামঃ মাহাদী হাসান",    
+                                     Text("ক্রেতার নামঃ ${AllFeedBuySaleLavData[index]["CustomerName"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -331,7 +617,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                       
                               
-                                      Text("ক্রেতার ফোনঃ 01767298388",    
+                                      Text("ক্রেতার ফোনঃ ${AllFeedBuySaleLavData[index]["CustomerPhoneNo"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -339,7 +625,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                                       
-                                      Text("ক্রেতার ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
+                                      Text("ক্রেতার ঠিকানাঃ ${AllFeedBuySaleLavData[index]["CustomerAddress"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -347,23 +633,31 @@ Future<void> getData(String paymentDate) async {
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                               
-                                      Text("বস্তার সংখ্যাঃ 9",    
+                                      Text("বস্তার সংখ্যাঃ ${AllFeedBuySaleLavData[index]["SaleFeedBagNumber"].toString()}",    
                                          
-                                         style: TextStyle(
+                                         style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                                       
-                                      Text("বস্তার ধরণঃ ২৫ কেজি",    
+                                      Text("বস্তার ধরণঃ ${AllFeedBuySaleLavData[index]["SaleFeedBagType"].toString()}",    
                                          
-                                         style: TextStyle(
+                                         style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("জমাঃ ${AllFeedBuySaleLavData[index]["JomaAmount"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
                               
-                                       Text("বিক্রয় মূল্যঃ 9 টাকা",    
+                                       Text("প্রতি বস্তার বিক্রয় মূল্যঃ ${AllFeedBuySaleLavData[index]["PerBagSalePrice"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.green.shade400,
@@ -372,7 +666,16 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                               
                                        
-                                       Text("ক্রয় মূল্যঃ 9 টাকা",    
+                                       Text("প্রতি বস্তার ক্রয় মূল্যঃ ${AllFeedBuySaleLavData[index]["PerBagBuyingPrice"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+
+                                      
+                                      Text("লাভঃ ${AllFeedBuySaleLavData[index]["Profit"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.green.shade400,
@@ -381,7 +684,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                       
                                       
-                                      Text("বকেয়াঃ 9 টাকা",    
+                                      Text("বকেয়াঃ ${AllFeedBuySaleLavData[index]["DueAmount"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
@@ -391,7 +694,7 @@ Future<void> getData(String paymentDate) async {
                       
                                       
                                           
-                                      Text("তারিখঃ ৯/১০/২০২৩",    
+                                      Text("তারিখঃ ${AllFeedBuySaleLavData[index]["Date"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
@@ -426,7 +729,7 @@ Future<void> getData(String paymentDate) async {
       // 2nd Tab 
          loading? Center(
         child: CircularProgressIndicator(color: ColorName().appColor,)
-      ):DataLoad == "0"? Center(child: Text("No Data Available")): RefreshIndicator(
+      ):SecondTabDataLoad == "0"? Center(child: Text("No Data Available")): RefreshIndicator(
         onRefresh: refresh,
         child: InkWell(
           onTap: ()async{
@@ -445,7 +748,7 @@ Future<void> getData(String paymentDate) async {
             color:ColorName().appColor,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("আজকের বিক্রয় ১১০ টাকা লাভ ১১০ টাকা ",    
+              child: Text("${VisiblePaymentMonth} বিক্রয় ${ChickenSaleBuyData["বিক্রয়"]} টাকা লাভ ${ChickenSaleBuyData["লাভ"]} টাকা ",    
                                        
                                        style: TextStyle(
                                               color: Colors.white,
@@ -475,7 +778,7 @@ Future<void> getData(String paymentDate) async {
     });
           },
           child: ListView.separated(
-                itemCount: AllData.length,
+                itemCount: AllChickenBuySaleLavData.length,
                 separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 15,),
                 itemBuilder: (BuildContext context, int index) {
               
@@ -504,7 +807,7 @@ Future<void> getData(String paymentDate) async {
                           
                                            
                             
-                                  title: Text("১২০ টাকা",    
+                                  title: Text("${AllChickenBuySaleLavData[index]["SaleAmount"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
@@ -517,7 +820,7 @@ Future<void> getData(String paymentDate) async {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                           
-                                     Text("ক্রেতার নামঃ মাহাদী হাসান",    
+                                     Text("ক্রেতার নামঃ ${AllChickenBuySaleLavData[index]["CustomerName"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -526,7 +829,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                       
                               
-                                      Text("ক্রেতার ফোনঃ 01767298388",    
+                                      Text("ক্রেতার ফোনঃ ${AllChickenBuySaleLavData[index]["CustomerPhoneNo"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -534,7 +837,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                                       
-                                      Text("ক্রেতার ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
+                                      Text("ক্রেতার ঠিকানাঃ ${AllChickenBuySaleLavData[index]["CustomerAddress"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -542,23 +845,31 @@ Future<void> getData(String paymentDate) async {
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                               
-                                      Text("বস্তার সংখ্যাঃ 9",    
+                                      Text("বাচ্চার সংখ্যাঃ ${AllChickenBuySaleLavData[index]["SaleChickenNumber"].toString()}",    
                                          
-                                         style: TextStyle(
+                                         style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                                       
-                                      Text("বস্তার ধরণঃ ২৫ কেজি",    
+                                      Text("বাচ্চার ধরণঃ ${AllChickenBuySaleLavData[index]["ChickenType"].toString()}",    
                                          
-                                         style: TextStyle(
+                                         style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("জমাঃ ${AllChickenBuySaleLavData[index]["JomaAmount"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
                               
-                                       Text("বিক্রয় মূল্যঃ 9 টাকা",    
+                                       Text("প্রতি বাচ্চার বিক্রয় মূল্যঃ ${AllChickenBuySaleLavData[index]["ChickenSalePrice"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.green.shade400,
@@ -567,7 +878,16 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                               
                                        
-                                       Text("ক্রয় মূল্যঃ 9 টাকা",    
+                                       Text("প্রতি বাচ্চার ক্রয় মূল্যঃ ${AllChickenBuySaleLavData[index]["ChickenBuyingPrice"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+
+                                      
+                                      Text("লাভঃ ${AllChickenBuySaleLavData[index]["Profit"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.green.shade400,
@@ -576,7 +896,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                       
                                       
-                                      Text("বকেয়াঃ 9 টাকা",    
+                                      Text("বকেয়াঃ ${AllChickenBuySaleLavData[index]["DueAmount"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
@@ -586,7 +906,7 @@ Future<void> getData(String paymentDate) async {
                       
                                       
                                           
-                                      Text("তারিখঃ ৯/১০/২০২৩",    
+                                      Text("তারিখঃ ${AllChickenBuySaleLavData[index]["Date"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
@@ -620,7 +940,7 @@ Future<void> getData(String paymentDate) async {
 
  loading? Center(
         child: CircularProgressIndicator(color: ColorName().appColor,)
-      ):DataLoad == "0"? Center(child: Text("No Data Available")): RefreshIndicator(
+      ):ThirdTabDataLoad == "0"? Center(child: Text("No Data Available")): RefreshIndicator(
         onRefresh: refresh,
         child: InkWell(
           onTap: ()async{
@@ -639,7 +959,7 @@ Future<void> getData(String paymentDate) async {
             color:ColorName().appColor,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("আজকের বিক্রয় ১১০ টাকা লাভ ১১০ টাকা ",    
+              child: Text("${VisiblePaymentMonth} বিক্রয় ${MedicinSaleBuyData["বিক্রয়"]} টাকা লাভ ${MedicinSaleBuyData["লাভ"]} টাকা ",    
                                        
                                        style: TextStyle(
                                               color: Colors.white,
@@ -669,7 +989,7 @@ Future<void> getData(String paymentDate) async {
     });
           },
           child: ListView.separated(
-                itemCount: AllData.length,
+                itemCount: AllMedicinBuySaleLavData.length,
                 separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 15,),
                 itemBuilder: (BuildContext context, int index) {
               
@@ -698,7 +1018,7 @@ Future<void> getData(String paymentDate) async {
                           
                                            
                             
-                                  title: Text("১২০ টাকা",    
+                                  title: Text("${AllMedicinBuySaleLavData[index]["SaleAmount"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
@@ -711,7 +1031,7 @@ Future<void> getData(String paymentDate) async {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                           
-                                     Text("ক্রেতার নামঃ মাহাদী হাসান",    
+                                     Text("ক্রেতার নামঃ ${AllMedicinBuySaleLavData[index]["CustomerName"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -720,7 +1040,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                       
                               
-                                      Text("ক্রেতার ফোনঃ 01767298388",    
+                                      Text("ক্রেতার ফোনঃ ${AllMedicinBuySaleLavData[index]["CustomerPhoneNo"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -728,7 +1048,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                                       
-                                      Text("ক্রেতার ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
+                                      Text("ক্রেতার ঠিকানাঃ ${AllMedicinBuySaleLavData[index]["CustomerAddress"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.black,
@@ -736,23 +1056,31 @@ Future<void> getData(String paymentDate) async {
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                               
-                                      Text("বস্তার সংখ্যাঃ 9",    
+                                      Text("মেডিসিনের সংখ্যাঃ ${AllMedicinBuySaleLavData[index]["MedicinNumber"].toString()}",    
                                          
-                                         style: TextStyle(
+                                         style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
                                       
-                                      Text("বস্তার ধরণঃ ২৫ কেজি",    
+                                      Text("মেডিসিনের ধরণঃ ${AllMedicinBuySaleLavData[index]["MedicinType"].toString()}",    
                                          
-                                         style: TextStyle(
+                                         style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
                                                 fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("জমাঃ ${AllMedicinBuySaleLavData[index]["JomaAmount"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
                               
-                                       Text("বিক্রয় মূল্যঃ 9 টাকা",    
+                                       Text("প্রতি মেডিসিনের বিক্রয় মূল্যঃ ${AllMedicinBuySaleLavData[index]["MedicinSaleprice"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.green.shade400,
@@ -761,7 +1089,16 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                               
                                        
-                                       Text("ক্রয় মূল্যঃ 9 টাকা",    
+                                       Text("প্রতি মেডিসিন ক্রয় মূল্যঃ ${AllMedicinBuySaleLavData[index]["MedicinBuyingPrice"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+
+                                      
+                                      Text("লাভঃ ${AllMedicinBuySaleLavData[index]["Profit"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.green.shade400,
@@ -770,7 +1107,7 @@ Future<void> getData(String paymentDate) async {
                                                 fontFamily: "Josefin Sans"),),
                       
                                       
-                                      Text("বকেয়াঃ 9 টাকা",    
+                                      Text("বকেয়াঃ ${AllMedicinBuySaleLavData[index]["DueAmount"].toString()} টাকা",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
@@ -780,7 +1117,7 @@ Future<void> getData(String paymentDate) async {
                       
                                       
                                           
-                                      Text("তারিখঃ ৯/১০/২০২৩",    
+                                      Text("তারিখঃ ${AllMedicinBuySaleLavData[index]["Date"].toString()}",    
                                          
                                          style: TextStyle(
                                                 color: Colors.red.shade400,
