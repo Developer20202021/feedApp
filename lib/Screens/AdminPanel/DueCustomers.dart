@@ -1,4 +1,5 @@
 import 'package:bijoy_helper/bijoy_helper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,497 @@ class _DueCustomerState extends State<DueCustomer> {
   TextEditingController PhoneNumberSearchController = TextEditingController();
   TextEditingController MessageController = TextEditingController();
   TextEditingController ReceiveAmountController = TextEditingController();
+
+
+bool loading = false;
+
+
+
+
+double TabDueAmount =0.0;
+
+List AllFeedKhuchraDueCustomer = [];
+
+  Future<void> getFeedKhuchraDueCustomer() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedKhuchraSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("DueAmount", isNotEqualTo: 0);
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllFeedKhuchraDueCustomer =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+
+
+
+      for (var i = 0; i < AllFeedKhuchraDueCustomer.length; i++) {
+
+        TabDueAmount= TabDueAmount + double.parse(AllFeedKhuchraDueCustomer[i]["DueAmount"].toString());
+
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+  
+        
+      
+      });
+
+    }
+
+    
+  }
+
+
+
+
+
+
+
+double FirstTabDueAmount =0.0;
+
+List AllFeedDueCustomer = [];
+
+  Future<void> getFeedDueCustomer() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("DueAmount", isNotEqualTo: 0);
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllFeedDueCustomer =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+
+
+
+      for (var i = 0; i < AllFeedDueCustomer.length; i++) {
+
+        FirstTabDueAmount = FirstTabDueAmount + double.parse(AllFeedDueCustomer[i]["DueAmount"].toString());
+
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+  
+        
+      
+      });
+
+    }
+
+    
+  }
+
+
+
+
+
+
+double SecondTabDueAmount=0.0;
+
+List AllChickenDueCustomer = [];
+
+  Future<void> getChickenDueCustomer() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('ChickenSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("DueAmount", isNotEqualTo: 0);
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllChickenDueCustomer =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+
+
+
+      for (var i = 0; i < AllChickenDueCustomer.length; i++) {
+
+        SecondTabDueAmount= SecondTabDueAmount+ double.parse(AllChickenDueCustomer[i]["DueAmount"].toString());
+
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+  
+        
+      
+      });
+
+    }
+
+    
+  }
+
+
+
+
+
+
+
+double ThirdTabDueAmount=0.0;
+
+List AllMedicinDueCustomer = [];
+
+  Future<void> getMedicinDueCustomer() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('MedicinSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("DueAmount", isNotEqualTo: 0);
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllMedicinDueCustomer =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+
+
+
+      for (var i = 0; i < AllMedicinDueCustomer.length; i++) {
+
+        ThirdTabDueAmount= ThirdTabDueAmount+ double.parse(AllMedicinDueCustomer[i]["DueAmount"].toString());
+
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+  
+        
+      
+      });
+
+    }
+
+    
+  }
+
+
+
+
+
+
+
+
+
+List AllMedicinDueCustomerByPhone = [];
+
+  Future<void> getMedicinDueCustomerByPhone() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('MedicinSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("DueAmount", isNotEqualTo: 0).where("CustomerPhoneNo", isEqualTo: PhoneNumberSearchController.text.trim().toString());
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+       AllMedicinDueCustomerByPhone =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+
+      setState(() {
+        loading = false;
+  
+        
+      
+      });
+
+    }
+
+    
+  }
+
+
+
+
+
+
+
+List AllChickenDueCustomerByPhone = [];
+
+  Future<void> getChickenDueCustomerByPhone() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('ChickenSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("DueAmount", isNotEqualTo: 0).where("CustomerPhoneNo", isEqualTo: PhoneNumberSearchController.text.trim().toString());
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllChickenDueCustomerByPhone =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+
+      setState(() {
+        loading = false;
+  
+        
+      
+      });
+
+    }
+
+    
+  }
+
+
+
+
+
+
+List AllFeedDueCustomerByPhone = [];
+
+  Future<void> getFeedDueCustomerByPhone() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("DueAmount", isNotEqualTo: 0).where("CustomerPhoneNo", isEqualTo: PhoneNumberSearchController.text.trim().toString());
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllFeedDueCustomerByPhone =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+            getFeedKhuchraDueCustomerByPhone();
+       
+      });
+
+
+      setState(() {
+        loading = false;
+  
+        
+      
+      });
+
+    }
+
+    
+  }
+
+
+
+
+
+List AllFeedKhuchraDueCustomerByPhone = [];
+
+  Future<void> getFeedKhuchraDueCustomerByPhone() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedKhuchraSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("DueAmount", isNotEqualTo: 0).where("CustomerPhoneNo", isEqualTo: PhoneNumberSearchController.text.trim().toString());
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllFeedKhuchraDueCustomerByPhone =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+
+      for (var i = 0; i < AllFeedKhuchraDueCustomerByPhone.length; i++) {
+
+        setState(() {
+          AllFeedDueCustomer.insert(AllFeedDueCustomer.length, AllFeedKhuchraDueCustomerByPhone[i]);
+        });
+        
+      }
+
+
+      setState(() {
+        loading = false;
+  
+        
+      
+      });
+
+    }
+
+    
+  }
+
+
+
+
+
+  @override
+  void initState() {
+
+
+    getFeedDueCustomer();
+    getChickenDueCustomer();
+    getMedicinDueCustomer();
+    
+
+
+
+
+    super.initState();
+  }
+
+
+
 
 
 
@@ -71,7 +563,12 @@ class _DueCustomerState extends State<DueCustomer> {
                                       backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
                     
                                     ),
-                            onPressed: (){
+                            onPressed: () async{
+
+                              getFeedDueCustomerByPhone();
+
+
+
 
                         }, icon: Icon(Icons.search), label: Text("Search")),
                             border: OutlineInputBorder(),
@@ -109,7 +606,7 @@ class _DueCustomerState extends State<DueCustomer> {
 
                       SizedBox(height: 50,),
 
-                      for(int i=0; i<20; i++)
+                      for(int i=0; i<AllFeedDueCustomer.length; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: InkWell(
@@ -262,7 +759,7 @@ class _DueCustomerState extends State<DueCustomer> {
                           
                             
                               }, icon: Icon(Icons.message), label: Text("Send")),
-                                title: Text("নামঃ মাহাদী হাসান",    
+                                title: Text("ক্রেতার নামঃ ${AllFeedDueCustomer[i]["CustomerName"].toString()}",    
                                        
                                        style: TextStyle(
                                               color: Colors.green.shade400,
@@ -274,29 +771,99 @@ class _DueCustomerState extends State<DueCustomer> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                             
-                                  Text("ফোনঃ 01721915550",    
+                                  Text("ক্রেতার নামঃ ${AllFeedDueCustomer[i]["CustomerName"].toString()}",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                      
+                              
+                                      Text("ক্রেতার ফোনঃ ${AllFeedDueCustomer[i]["CustomerPhoneNo"].toString()}",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("ক্রেতার ঠিকানাঃ ${AllFeedDueCustomer[i]["CustomerAddress"].toString()}",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                              
+                                      Text("বস্তার সংখ্যাঃ ${AllFeedDueCustomer[i]["SaleFeedBagNumber"].toString()}",    
+                                         
+                                         style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("বস্তার ধরণঃ ${AllFeedDueCustomer[i]["SaleFeedBagType"].toString()}",    
+                                         
+                                         style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("জমাঃ ${AllFeedDueCustomer[i]["JomaAmount"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                              
+                                       Text("প্রতি বস্তার বিক্রয় মূল্যঃ ${AllFeedDueCustomer[i]["PerBagSalePrice"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                              
                                        
-                                       style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              fontFamily: "Josefin Sans"),),
-                                
-                                Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
-                                       
-                                       style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              fontFamily: "Josefin Sans"),),
-                                
-                                Text("বকেয়াঃ ১২০ টাকা",    
-                                       
-                                       style: TextStyle(
-                                              color: Colors.red.shade400,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              fontFamily: "Josefin Sans"),),
+                                       Text("প্রতি বস্তার ক্রয় মূল্যঃ ${AllFeedDueCustomer[i]["PerBagBuyingPrice"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+
+                                      
+                                      Text("লাভঃ ${AllFeedDueCustomer[i]["Profit"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                      
+                                      
+                                      Text("বকেয়াঃ ${AllFeedDueCustomer[i]["DueAmount"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.red.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                      
+                                      
+                                          
+                                      Text("তারিখঃ ${AllFeedDueCustomer[i]["Date"].toString()}",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.red.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
                                 
                           
                                                   
@@ -440,7 +1007,7 @@ class _DueCustomerState extends State<DueCustomer> {
 
                  // 2nd Tab 
                 SingleChildScrollView(
-                  child: Column(
+                  child:loading?Center(child: CircularProgressIndicator(),):Column(
                     children: [
 
                       SizedBox(height: 20,),
@@ -459,7 +1026,9 @@ class _DueCustomerState extends State<DueCustomer> {
                                       backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
                     
                                     ),
-                            onPressed: (){
+                            onPressed: () async{
+
+                              getChickenDueCustomerByPhone();
 
                         }, icon: Icon(Icons.search), label: Text("Search")),
                             border: OutlineInputBorder(),
@@ -497,7 +1066,7 @@ class _DueCustomerState extends State<DueCustomer> {
 
                       SizedBox(height: 50,),
 
-                      for(int i=0; i<20; i++)
+                      for(int i=0; i<AllChickenDueCustomer.length; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: InkWell(
@@ -528,7 +1097,7 @@ class _DueCustomerState extends State<DueCustomer> {
                               child: Center(
 
                                 // এটা ফোন নাম্বার দিয়ে কল করতে হবে।
-                                child: Text("মোট বকেয়াঃ ১২০ টাকা",    
+                                child: Text("বকেয়াঃ ${AllChickenDueCustomer[i]["DueAmount"].toString()} টাকা",    
                                      
                                      style: TextStyle(
                                             color: Colors.red.shade400,
@@ -653,7 +1222,7 @@ class _DueCustomerState extends State<DueCustomer> {
                           
                             
                               }, icon: Icon(Icons.message), label: Text("Send")),
-                                title: Text("নামঃ মাহাদী হাসান",    
+                                title: Text("ক্রেতার নামঃ ${AllChickenDueCustomer[i]["CustomerName"].toString()}",    
                                        
                                        style: TextStyle(
                                               color: Colors.green.shade400,
@@ -665,30 +1234,99 @@ class _DueCustomerState extends State<DueCustomer> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                             
-                                  Text("ফোনঃ 01721915550",    
+                                Text("ক্রেতার নামঃ ${AllChickenDueCustomer[i]["CustomerName"].toString()}",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                      
+                              
+                                      Text("ক্রেতার ফোনঃ ${AllChickenDueCustomer[i]["CustomerPhoneNo"].toString()}",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("ক্রেতার ঠিকানাঃ ${AllChickenDueCustomer[i]["CustomerAddress"].toString()}",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                              
+                                      Text("বাচ্চার সংখ্যাঃ ${AllChickenDueCustomer[i]["SaleChickenNumber"].toString()}",    
+                                         
+                                         style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("বাচ্চার ধরণঃ ${AllChickenDueCustomer[i]["ChickenType"].toString()}",    
+                                         
+                                         style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                                      
+                                      Text("জমাঃ ${AllChickenDueCustomer[i]["JomaAmount"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                              
+                                       Text("প্রতি বাচ্চার বিক্রয় মূল্যঃ ${AllChickenDueCustomer[i]["ChickenSalePrice"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                              
                                        
-                                       style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              fontFamily: "Josefin Sans"),),
-                                
-                                Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
-                                       
-                                       style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              fontFamily: "Josefin Sans"),),
-                                
-                                Text("বকেয়াঃ ১২০ টাকা",    
-                                       
-                                       style: TextStyle(
-                                              color: Colors.red.shade400,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              fontFamily: "Josefin Sans"),),
-                                
+                                       Text("প্রতি বাচ্চার ক্রয় মূল্যঃ ${AllChickenDueCustomer[i]["ChickenBuyingPrice"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+
+                                      
+                                      Text("লাভঃ ${AllChickenDueCustomer[i]["Profit"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.green.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                      
+                                      
+                                      Text("বকেয়াঃ ${AllChickenDueCustomer[i]["DueAmount"].toString()} টাকা",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.red.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
+                      
+                                      
+                                          
+                                      Text("তারিখঃ ${AllChickenDueCustomer[i]["Date"].toString()}",    
+                                         
+                                         style: TextStyle(
+                                                color: Colors.red.shade400,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: "Josefin Sans"),),
                           
                                                   
                             ElevatedButton.icon(
@@ -827,7 +1465,7 @@ class _DueCustomerState extends State<DueCustomer> {
                 
             // 3rd Tab 
                 SingleChildScrollView(
-                  child: Column(
+                  child:loading?Center(child: CircularProgressIndicator(),):Column(
                     children: [
 
                       SizedBox(height: 20,),
@@ -846,7 +1484,10 @@ class _DueCustomerState extends State<DueCustomer> {
                                       backgroundColor: MaterialStatePropertyAll(ColorName().appColor),
                     
                                     ),
-                            onPressed: (){
+                            onPressed: ()async{
+
+
+                              getMedicinDueCustomerByPhone();
 
                         }, icon: Icon(Icons.search), label: Text("Search")),
                             border: OutlineInputBorder(),
@@ -884,7 +1525,7 @@ class _DueCustomerState extends State<DueCustomer> {
 
                       SizedBox(height: 50,),
 
-                      for(int i=0; i<20; i++)
+                      for(int i=0; i<AllMedicinDueCustomer.length; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: InkWell(
