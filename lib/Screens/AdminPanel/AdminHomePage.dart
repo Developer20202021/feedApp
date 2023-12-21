@@ -1,4 +1,5 @@
 import 'package:bijoy_helper/bijoy_helper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
 import 'package:feed/Screens/AdminPanel/DailySales.dart';
 import 'package:feed/Screens/AdminPanel/DueCustomers.dart';
@@ -8,6 +9,7 @@ import 'package:feed/Screens/StockManagement.dart';
 import 'package:feed/Screens/StockUpload.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class AdminHomePage extends StatefulWidget {
 
@@ -19,6 +21,111 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
+
+
+List AllChartData =[{
+    "ক্রয়": 0.0,
+    "বিক্রয়": 0.0,
+    "লাভ": 0.0,
+  }];
+
+bool loading = false;
+
+double ThisMonthSaleBagNumber = 0;
+  double ThisMonthKhuchraKg = 0;
+
+  List AllFeedBuySaleLavData = [];
+
+  Future<void> getFeedBuySaleLavData() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllFeedBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllFeedBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllFeedBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllFeedBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllFeedBuySaleLavData[i]["PerBagBuyingPrice"].toString())*double.parse(AllFeedBuySaleLavData[i]["SaleFeedBagNumber"].toString()));
+
+        setState(() {
+          ThisMonthSaleBagNumber = ThisMonthSaleBagNumber + int.parse(AllFeedBuySaleLavData[i]["SaleFeedBagNumber"].toString());
+
+        });
+        
+      }
+
+
+      setState(() {
+        loading = false;
+        
+        AllChartData.insert(0,  {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              });
+
+         
+      });
+
+
+
+    }
+
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   int _selectedDestination = 0;
 
   @override
@@ -72,111 +179,67 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       
                       child: Material(
                         elevation: 14,
-                        child: ListTile(
-                          
-                          
-                                           
-                            
-                                  title: Text("১২০ টাকা",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.red.shade400,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                             
-                                  subtitle: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                          
-                                     Text("ক্রেতার নামঃ মাহাদী হাসান",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                      
-                              
-                                      Text("ক্রেতার ফোনঃ 01767298388",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                                      
-                                      Text("ক্রেতার ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                              
-                                      Text("বস্তার সংখ্যাঃ 9",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                                      
-                                      Text("বস্তার ধরণঃ ২৫ কেজি",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                              
-                                       Text("বিক্রয় মূল্যঃ 9 টাকা",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.green.shade400,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                              
-                                       
-                                       Text("ক্রয় মূল্যঃ 9 টাকা",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.green.shade400,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                      
-                                      
-                                      Text("বকেয়াঃ 9 টাকা",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.red.shade400,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                      
-                                      
-                                          
-                                      Text("তারিখঃ ৯/১০/২০২৩",    
-                                         
-                                         style: TextStyle(
-                                                color: Colors.red.shade400,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: "Josefin Sans"),),
-                                    ],
-                                  ),
-                            
-                            
-                            
-                                ),
+                        child:  Container(
+                                                  height: 200,
+                                                  child: Center(
+                                                      child: PieChart(
+                                                    dataMap: AllChartData[0],
+                                                    animationDuration: Duration(
+                                                        milliseconds: 800),
+                                                    chartLegendSpacing: 22,
+
+                                                    chartRadius:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+
+                                                    initialAngleInDegree: 0,
+                                                    chartType: ChartType.disc,
+                                                    ringStrokeWidth: 22,
+                                                    centerText: "",
+                                                    centerTextStyle:
+                                                        const TextStyle(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 13,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontFamily:
+                                                                "Josefin Sans"),
+                                                    legendOptions:
+                                                        const LegendOptions(
+                                                      showLegendsInRow: false,
+                                                      legendPosition:
+                                                          LegendPosition.right,
+                                                      showLegends: true,
+                                                      legendTextStyle:
+                                                          TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    chartValuesOptions:
+                                                        const ChartValuesOptions(
+                                                      showChartValueBackground:
+                                                          true,
+                                                      showChartValues: true,
+                                                      showChartValuesInPercentage:
+                                                          false,
+                                                      showChartValuesOutside:
+                                                          false,
+                                                      decimalPlaces: 1,
+                                                    ),
+                                                    // gradientList: ---To add gradient colors---
+                                                    // emptyColorGradient: ---Empty Color gradient---
+                                                  )),
+                                                ),
                       ),
                     ),
                   );
           },
-          childCount: 20,
+          childCount: AllChartData.length,
         ),
       ),
     ],
