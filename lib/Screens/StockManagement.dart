@@ -17,9 +17,9 @@ class StockShow extends StatefulWidget {
 
 class _StockShowState extends State<StockShow> {
   Map<String, double> dataMap = {
-    "ক্রয়": 60,
-    "বিক্রয়": 40,
-    "লাভ": 40,
+    "ক্রয়": 0,
+    "বিক্রয়": 0,
+    "লাভ": 0,
   };
 
   Map<String, double> ChickenSaleBuyData = {
@@ -29,14 +29,14 @@ class _StockShowState extends State<StockShow> {
   };
 
   Map<String, double> KhuchraSaleBuyData = {
-    "ক্রয়": 60,
-    "বিক্রয়": 40,
-    "লাভ": 40,
+    "ক্রয়": 0,
+    "বিক্রয়": 0,
+    "লাভ": 0,
   };
 
   Map<String, double> bagAndkhuchraChartData = {
-    "বস্তা": 60,
-    "খুচরা": 40,
+    "বস্তা": 0,
+    "খুচরা": 0,
   };
 
   final List<String> Bags = [
@@ -124,6 +124,171 @@ class _StockShowState extends State<StockShow> {
     print(AllFeedStockData);
   }
 
+
+
+
+  double ThisMonthSaleBagNumber = 0;
+  double ThisMonthKhuchraKg = 0;
+
+  List AllFeedBuySaleLavData = [];
+
+  Future<void> getFeedBuySaleLavData() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllFeedBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllFeedBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllFeedBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllFeedBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllFeedBuySaleLavData[i]["PerBagBuyingPrice"].toString())*double.parse(AllFeedBuySaleLavData[i]["SaleFeedBagNumber"].toString()));
+
+        setState(() {
+          ThisMonthSaleBagNumber = ThisMonthSaleBagNumber + int.parse(AllFeedBuySaleLavData[i]["SaleFeedBagNumber"].toString());
+
+        });
+        
+      }
+
+
+      setState(() {
+        dataMap = {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              };
+
+          getFeedKhuchraBuySaleLavData();
+      });
+
+
+print("____From_____DataMap_______${dataMap}");
+    }
+
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+  List AllFeedKhuchraBuySaleLavData = [];
+
+  Future<void> getFeedKhuchraBuySaleLavData() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedKhuchraSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllFeedKhuchraBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllFeedKhuchraBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllFeedKhuchraBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllFeedKhuchraBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllFeedKhuchraBuySaleLavData[i]["PerKgBuyingPrice"].toString())*double.parse(AllFeedKhuchraBuySaleLavData[i]["SaleFeedKgNumber"].toString()));
+        setState(() {
+          
+          ThisMonthKhuchraKg = ThisMonthKhuchraKg + int.parse(AllFeedKhuchraBuySaleLavData[i]["SaleFeedKgNumber"].toString());
+        });
+        
+      }
+
+
+      setState(() {
+        KhuchraSaleBuyData = {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              };
+        
+        bagAndkhuchraChartData = {
+                "বস্তা": ThisMonthSaleBagNumber,
+                "খুচরা": ThisMonthKhuchraKg,
+              };
+      });
+
+
+print("____From_____DataMap_______${KhuchraSaleBuyData}");
+    }
+
+    
+  }
+
+
+
+
+
+
+
+
   String SecondTabDataLoad = "";
 
   // Firebase All Customer Data Load
@@ -209,6 +374,8 @@ class _StockShowState extends State<StockShow> {
     getFeedStockData();
     getChickenStockData();
     getMedicineStockData();
+    getFeedBuySaleLavData();
+
     // TODO: implement initState
     super.initState();
   }
@@ -304,7 +471,7 @@ class _StockShowState extends State<StockShow> {
                                                 elevation: 50.0,
                                                 title: const Center(
                                                   child: Text(
-                                                    "গত মাসের বস্তা ক্রয় বিক্রয় লাভের তথ্য",
+                                                    "এই মাসের বস্তা ক্রয় বিক্রয় লাভের তথ্য",
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:
@@ -321,7 +488,7 @@ class _StockShowState extends State<StockShow> {
                                                   child: Center(
                                                       child: PieChart(
                                                     dataMap: dataMap,
-                                                    animationDuration: Duration(
+                                                    animationDuration: const Duration(
                                                         milliseconds: 800),
                                                     chartLegendSpacing: 22,
 
@@ -388,7 +555,7 @@ class _StockShowState extends State<StockShow> {
                                                 elevation: 50.0,
                                                 title: const Center(
                                                   child: Text(
-                                                    "গত মাসের বস্তা(টি) ও খুচরা(কেজি) বিক্রির তথ্য",
+                                                    "এই মাসের বস্তা(টি) ও খুচরা(কেজি) বিক্রির তথ্য",
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:
@@ -406,7 +573,7 @@ class _StockShowState extends State<StockShow> {
                                                       child: PieChart(
                                                     dataMap:
                                                         bagAndkhuchraChartData,
-                                                    animationDuration: Duration(
+                                                    animationDuration: const Duration(
                                                         milliseconds: 800),
                                                     chartLegendSpacing: 22,
 
@@ -473,7 +640,7 @@ class _StockShowState extends State<StockShow> {
                                                 elevation: 50.0,
                                                 title: const Center(
                                                   child: Text(
-                                                    "গত মাসের খুচরা(কেজি) ক্রয় বিক্রয়ের তথ্য",
+                                                    "এই মাসের খুচরা(কেজি) ক্রয় বিক্রয়ের তথ্য",
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:
@@ -702,7 +869,7 @@ class _StockShowState extends State<StockShow> {
                                                                         style:
                                                                             ButtonStyle(
                                                                           elevation:
-                                                                              MaterialStatePropertyAll(15),
+                                                                              const MaterialStatePropertyAll(15),
                                                                           backgroundColor:
                                                                               MaterialStatePropertyAll(ColorName().appColor),
                                                                         ),
