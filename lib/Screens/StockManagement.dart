@@ -23,9 +23,9 @@ class _StockShowState extends State<StockShow> {
   };
 
   Map<String, double> ChickenSaleBuyData = {
-    "ক্রয়": 60,
-    "বিক্রয়": 40,
-    "লাভ": 40,
+    "ক্রয়": 0,
+    "বিক্রয়": 0,
+    "লাভ": 0,
   };
 
   Map<String, double> KhuchraSaleBuyData = {
@@ -184,6 +184,7 @@ class _StockShowState extends State<StockShow> {
 
 
       setState(() {
+        loading = false;
         dataMap = {
                 "ক্রয়": BuyingPrice,
                 "বিক্রয়": SaleAmount,
@@ -263,6 +264,7 @@ print("____From_____DataMap_______${dataMap}");
 
 
       setState(() {
+        loading = false;
         KhuchraSaleBuyData = {
                 "ক্রয়": BuyingPrice,
                 "বিক্রয়": SaleAmount,
@@ -283,6 +285,157 @@ print("____From_____DataMap_______${KhuchraSaleBuyData}");
   }
 
 
+
+
+
+
+
+
+
+
+
+List AllChickenBuySaleLavData = [];
+
+  Future<void> getChickenBuySaleLavData() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthChickenSaleInfoRef =
+        FirebaseFirestore.instance.collection('ChickenSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthChickenSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllChickenBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllChickenBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllChickenBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllChickenBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllChickenBuySaleLavData[i]["ChickenBuyingPrice"].toString())*double.parse(AllChickenBuySaleLavData[i]["SaleChickenNumber"].toString()));
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+      ChickenSaleBuyData = {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              };
+
+      });
+
+
+print("____From_____DataMap_______${dataMap}");
+    }
+
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+List AllMedicinBuySaleLavData = [];
+
+  Future<void> getMedicinBuySaleLavData() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthChickenSaleInfoRef =
+        FirebaseFirestore.instance.collection('MedicinSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthChickenSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllMedicinBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllMedicinBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllMedicinBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllMedicinBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllMedicinBuySaleLavData[i]["MedicinBuyingPrice"].toString())*double.parse(AllMedicinBuySaleLavData[i]["MedicinNumber"].toString()));
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+      ChickenSaleBuyData = {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              };
+
+      });
+
+
+print("____From_____DataMap_______${dataMap}");
+    }
+
+    
+  }
 
 
 
@@ -375,6 +528,7 @@ print("____From_____DataMap_______${KhuchraSaleBuyData}");
     getChickenStockData();
     getMedicineStockData();
     getFeedBuySaleLavData();
+    getChickenBuySaleLavData();
 
     // TODO: implement initState
     super.initState();
@@ -1919,7 +2073,7 @@ print("____From_____DataMap_______${KhuchraSaleBuyData}");
                                       height: 200,
                                       child: Center(
                                           child: PieChart(
-                                        dataMap: dataMap,
+                                        dataMap: ChickenSaleBuyData,
                                         animationDuration:
                                             Duration(milliseconds: 800),
                                         chartLegendSpacing: 22,
@@ -2123,6 +2277,12 @@ print("____From_____DataMap_______${KhuchraSaleBuyData}");
                                                                                 "ChickenType":AllChickenStockData[x]["ChickenType"],
                                                                                 "SaleChickenNumber":ChickenNumberController.text.trim(),
                                                                                 "StockID":AllChickenStockData[x]["StockID"],
+
+
+                                                                                "ChickenBuyingPrice":AllChickenStockData[x]["ChickenBuyingPrice"],
+
+
+                                                                              "ChickenSalePrice":AllChickenStockData[x]["ChickenSalePrice"],
 
                                                                                 "SaleAmount": int.parse(ChickenNumberController.text.trim().toString()) * double.parse(AllChickenStockData[x]["ChickenSalePrice"]),
                                                                                 "JomaAmount": JomaController.text.trim(),
@@ -2941,8 +3101,10 @@ print("____From_____DataMap_______${KhuchraSaleBuyData}");
                                                                                 "JomaAmount": JomaController.text.trim(),
 
                                                                                 "DueAmount": (int.parse(MedicinNumberController.text.trim().toString()) * double.parse(AllMedicineStockData[a]["MedicinSalePrice"])) - double.parse(JomaController.text.trim()),
-
                                                                                 "Profit": ((int.parse(MedicinNumberController.text.trim().toString()) * double.parse(AllMedicineStockData[a]["MedicinSalePrice"]))-(int.parse(MedicinNumberController.text.trim().toString()) * double.parse(AllMedicineStockData[a]["MedicinBuyingPrice"]))),
+
+                                                                                "MedicinSaleprice":AllMedicineStockData[a]["MedicinSalePrice"],
+                                                                                "MedicinBuyingPrice":AllMedicineStockData[a]["MedicinBuyingPrice"],
 
                                                                                 "CustomerName": CustomerNameController.text.trim(),
                                                                                 "CustomerAddress": CustomerAddressController.text.trim(),
