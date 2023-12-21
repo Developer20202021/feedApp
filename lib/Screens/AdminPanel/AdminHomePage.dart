@@ -22,12 +22,32 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage> {
 
-
+List Header =["এই মাসের মুরগীর খাদ্যের বস্তার বিক্রয়ের হিসাব", "এই মাসের মুরগীর খাদ্যের খুচরা বিক্রয়ের হিসাব", "এই মাসের মুরগীর বাচ্চার বিক্রয়ের হিসাব", "এই মাসের মেডিসিন বিক্রির হিসাব"];
 List AllChartData =[{
     "ক্রয়": 0.0,
     "বিক্রয়": 0.0,
     "লাভ": 0.0,
-  }];
+  },
+
+  {
+    "ক্রয়": 0.0,
+    "বিক্রয়": 0.0,
+    "লাভ": 0.0,
+  },
+
+  {
+    "ক্রয়": 0.0,
+    "বিক্রয়": 0.0,
+    "লাভ": 0.0,
+  },
+
+  {
+    "ক্রয়": 0.0,
+    "বিক্রয়": 0.0,
+    "লাভ": 0.0,
+  }
+  
+  ];
 
 bool loading = false;
 
@@ -96,7 +116,7 @@ double ThisMonthSaleBagNumber = 0;
                 "লাভ": profit,
               });
 
-         
+         getFeedKhuchraBuySaleLavData();
       });
 
 
@@ -111,6 +131,246 @@ double ThisMonthSaleBagNumber = 0;
 
 
 
+
+ List AllFeedKhuchraBuySaleLavData = [];
+
+  Future<void> getFeedKhuchraBuySaleLavData() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthFeddSaleInfoRef =
+        FirebaseFirestore.instance.collection('FeedKhuchraSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthFeddSaleInfoRefQueryCount = _ThisMonthFeddSaleInfoRef.where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthFeddSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllFeedKhuchraBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllFeedKhuchraBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllFeedKhuchraBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllFeedKhuchraBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllFeedKhuchraBuySaleLavData[i]["PerKgBuyingPrice"].toString())*double.parse(AllFeedKhuchraBuySaleLavData[i]["SaleFeedKgNumber"].toString()));
+        setState(() {
+          
+          ThisMonthKhuchraKg = ThisMonthKhuchraKg + int.parse(AllFeedKhuchraBuySaleLavData[i]["SaleFeedKgNumber"].toString());
+        });
+        
+      }
+
+
+      setState(() {
+        loading = false;
+
+        AllChartData.insert(1,  {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              });
+        
+         getChickenBuySaleLavData();
+
+      });
+
+
+    }
+
+    
+  }
+
+
+
+
+
+List AllChickenBuySaleLavData = [];
+
+  Future<void> getChickenBuySaleLavData() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthChickenSaleInfoRef =
+        FirebaseFirestore.instance.collection('ChickenSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthChickenSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllChickenBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllChickenBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllChickenBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllChickenBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllChickenBuySaleLavData[i]["ChickenBuyingPrice"].toString())*double.parse(AllChickenBuySaleLavData[i]["SaleChickenNumber"].toString()));
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+
+
+        AllChartData.insert(2,  {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              });
+
+        
+        getMedicinBuySaleLavData();
+    
+
+      });
+
+
+
+    }
+
+    
+  }
+
+
+
+
+
+List AllMedicinBuySaleLavData = [];
+
+  Future<void> getMedicinBuySaleLavData() async {
+    setState(() {
+      loading = true;
+    });
+
+    // Get docs from collection reference
+    CollectionReference _ThisMonthChickenSaleInfoRef =
+        FirebaseFirestore.instance.collection('MedicinSaleInfo');
+
+    // // all Due Query Count
+       Query _ThisMonthChickenSaleInfoRefQueryCount = _ThisMonthChickenSaleInfoRef.where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+
+    QuerySnapshot queryDueSnapshot =
+        await _ThisMonthChickenSaleInfoRefQueryCount.get();
+
+    var RecentGetFeedData =
+        queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (RecentGetFeedData.isEmpty) {
+      setState(() {
+        // FirstTabDataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+        AllMedicinBuySaleLavData =
+            queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+       
+      });
+
+      double SaleAmount =0.0;
+      double profit = 0.0;
+      double BuyingPrice = 0.0;
+
+
+      for (var i = 0; i < AllMedicinBuySaleLavData.length; i++) {
+
+        SaleAmount = SaleAmount + double.parse(AllMedicinBuySaleLavData[i]["SaleAmount"].toString());
+
+        profit = profit + double.parse(AllMedicinBuySaleLavData[i]["Profit"].toString());
+
+        BuyingPrice = BuyingPrice + (double.parse(AllMedicinBuySaleLavData[i]["MedicinBuyingPrice"].toString())*double.parse(AllMedicinBuySaleLavData[i]["MedicinNumber"].toString()));
+
+        
+      }
+
+
+      setState(() {
+        loading = false;
+
+        AllChartData.insert(3,  {
+                "ক্রয়": BuyingPrice,
+                "বিক্রয়": SaleAmount,
+                "লাভ": profit,
+              });
+
+
+      });
+
+
+
+    }
+
+    
+  }
+
+
+
+
+
+
+@override
+  void initState() {
+
+
+    getFeedBuySaleLavData();
+    // getFeedKhuchraBuySaleLavData();
+    // getChickenBuySaleLavData();
+    // getMedicinBuySaleLavData();
+   
+
+
+
+
+    super.initState();
+  }
 
 
 
@@ -171,7 +431,7 @@ double ThisMonthSaleBagNumber = 0;
               
                     border: Border.all(
                               width: 2,
-                              color: ColorName().appColor
+                              color: Colors.white
                             ),
                     borderRadius: BorderRadius.circular(10)      
                    ),
@@ -179,67 +439,88 @@ double ThisMonthSaleBagNumber = 0;
                       
                       child: Material(
                         elevation: 14,
-                        child:  Container(
-                                                  height: 200,
-                                                  child: Center(
-                                                      child: PieChart(
-                                                    dataMap: AllChartData[0],
-                                                    animationDuration: Duration(
-                                                        milliseconds: 800),
-                                                    chartLegendSpacing: 22,
+                        child: loading?Center(child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        ),):  Column(
+                          children: [
 
-                                                    chartRadius:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
 
-                                                    initialAngleInDegree: 0,
-                                                    chartType: ChartType.disc,
-                                                    ringStrokeWidth: 22,
-                                                    centerText: "",
-                                                    centerTextStyle:
-                                                        const TextStyle(
-                                                            color: Colors.black,
+                            Text(
+                                "${Header[index]}"
+                                    ,
+                                    style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                    fontFamily: "Josefin Sans"),
+                                    ),
+
+
+
+                            Container(
+                                                      height: 200,
+                                                      child: Center(
+                                                          child: PieChart(
+                                                        dataMap: AllChartData[index],
+                                                        animationDuration: Duration(
+                                                            milliseconds: 800),
+                                                        chartLegendSpacing: 22,
+
+                                                        chartRadius:
+                                                            MediaQuery.of(context)
+                                                                .size
+                                                                .width,
+
+                                                        initialAngleInDegree: 0,
+                                                        chartType: ChartType.disc,
+                                                        ringStrokeWidth: 22,
+                                                        centerText: "",
+                                                        centerTextStyle:
+                                                            const TextStyle(
+                                                                color: Colors.black,
+                                                                fontWeight:
+                                                                    FontWeight.bold,
+                                                                fontSize: 13,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                fontFamily:
+                                                                    "Josefin Sans"),
+                                                        legendOptions:
+                                                            const LegendOptions(
+                                                          showLegendsInRow: false,
+                                                          legendPosition:
+                                                              LegendPosition.right,
+                                                          showLegends: true,
+                                                          legendTextStyle:
+                                                              TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            fontSize: 13,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            fontFamily:
-                                                                "Josefin Sans"),
-                                                    legendOptions:
-                                                        const LegendOptions(
-                                                      showLegendsInRow: false,
-                                                      legendPosition:
-                                                          LegendPosition.right,
-                                                      showLegends: true,
-                                                      legendTextStyle:
-                                                          TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
+                                                          ),
+                                                        ),
+                                                        chartValuesOptions:
+                                                            const ChartValuesOptions(
+                                                          showChartValueBackground:
+                                                              true,
+                                                          showChartValues: true,
+                                                          showChartValuesInPercentage:
+                                                              false,
+                                                          showChartValuesOutside:
+                                                              false,
+                                                          decimalPlaces: 1,
+                                                        ),
+                                                        // gradientList: ---To add gradient colors---
+                                                        // emptyColorGradient: ---Empty Color gradient---
+                                                      )),
                                                     ),
-                                                    chartValuesOptions:
-                                                        const ChartValuesOptions(
-                                                      showChartValueBackground:
-                                                          true,
-                                                      showChartValues: true,
-                                                      showChartValuesInPercentage:
-                                                          false,
-                                                      showChartValuesOutside:
-                                                          false,
-                                                      decimalPlaces: 1,
-                                                    ),
-                                                    // gradientList: ---To add gradient colors---
-                                                    // emptyColorGradient: ---Empty Color gradient---
-                                                  )),
-                                                ),
+                          ],
+                        ),
                       ),
                     ),
                   );
           },
-          childCount: AllChartData.length,
+          childCount: 4,
         ),
       ),
     ],
