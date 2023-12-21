@@ -28,6 +28,13 @@ class _StockShowState extends State<StockShow> {
     "লাভ": 0,
   };
 
+
+    Map<String, double> MedicinSaleBuyData = {
+    "ক্রয়": 0,
+    "বিক্রয়": 0,
+    "লাভ": 0,
+  };
+
   Map<String, double> KhuchraSaleBuyData = {
     "ক্রয়": 0,
     "বিক্রয়": 0,
@@ -422,7 +429,7 @@ List AllMedicinBuySaleLavData = [];
 
       setState(() {
         loading = false;
-      ChickenSaleBuyData = {
+      MedicinSaleBuyData = {
                 "ক্রয়": BuyingPrice,
                 "বিক্রয়": SaleAmount,
                 "লাভ": profit,
@@ -529,6 +536,7 @@ print("____From_____DataMap_______${dataMap}");
     getMedicineStockData();
     getFeedBuySaleLavData();
     getChickenBuySaleLavData();
+    getMedicinBuySaleLavData();
 
     // TODO: implement initState
     super.initState();
@@ -2891,7 +2899,7 @@ print("____From_____DataMap_______${dataMap}");
                                       height: 200,
                                       child: Center(
                                           child: PieChart(
-                                        dataMap: dataMap,
+                                        dataMap: MedicinSaleBuyData,
                                         animationDuration:
                                             Duration(milliseconds: 800),
                                         chartLegendSpacing: 22,
