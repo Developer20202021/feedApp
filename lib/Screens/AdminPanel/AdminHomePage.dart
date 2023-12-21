@@ -5,9 +5,13 @@ import 'package:feed/Screens/AdminPanel/DailySales.dart';
 import 'package:feed/Screens/AdminPanel/DueCustomers.dart';
 import 'package:feed/Screens/AdminPanel/MonthlySales.dart';
 import 'package:feed/Screens/AdminPanel/YearlySales.dart';
+import 'package:feed/Screens/CommonScreen/ChangePassword.dart';
+import 'package:feed/Screens/CommonScreen/LogIn.dart';
 import 'package:feed/Screens/StockManagement.dart';
 import 'package:feed/Screens/StockUpload.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -21,6 +25,10 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
+
+
+
+    final _mybox = Hive.box("feedBox");
 
 List Header =["এই মাসের মুরগীর খাদ্যের বস্তার বিক্রয়ের হিসাব", "এই মাসের মুরগীর খাদ্যের খুচরা বিক্রয়ের হিসাব", "এই মাসের মুরগীর বাচ্চার বিক্রয়ের হিসাব", "এই মাসের মেডিসিন বিক্রির হিসাব"];
 List AllChartData =[{
@@ -356,6 +364,15 @@ List AllMedicinBuySaleLavData = [];
 
 
 
+
+
+var AdminName ="";
+var AdminEmail = "";
+var AdminPhoneNo ="";
+
+
+
+
 @override
   void initState() {
 
@@ -366,6 +383,11 @@ List AllMedicinBuySaleLavData = [];
     // getMedicinBuySaleLavData();
    
 
+   setState(() {
+        AdminPhoneNo = _mybox.get("AdminPhoneNo");
+        AdminName = _mybox.get("AdminName");
+        AdminEmail = _mybox.get("AdminEmail");
+      });
 
 
 
@@ -565,7 +587,7 @@ List AllMedicinBuySaleLavData = [];
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                              Text("নামঃ Mahadi Hasan",    
+                              Text("নামঃ ${AdminName.toUpperCase()}",    
                                            
                                            style: TextStyle(
                                                   color: Colors.white,
@@ -575,7 +597,7 @@ List AllMedicinBuySaleLavData = [];
                   
                   
                   
-                   Text("ইমেইলঃ inansoft@gmail.com",    
+                   Text("ইমেইলঃ ${AdminEmail}",    
                                             
                                             style: TextStyle(
                                                    color: Colors.white,
@@ -585,7 +607,7 @@ List AllMedicinBuySaleLavData = [];
                   
                   
                   
-                  Text("ফোনঃ 01283856836",    
+                  Text("ফোনঃ ${AdminPhoneNo}",    
                                            
                                            style: TextStyle(
                                                   color: Colors.white,
@@ -595,13 +617,7 @@ List AllMedicinBuySaleLavData = [];
                     
                     
                     
-                  Text("ঠিকানাঃ জয়পুরহাট সদর, জয়পুরহাট",    
-                                           
-                                           style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14,
-                                                  fontFamily: "Josefin Sans"),),
+       
               ],
                       ),
                     )
@@ -782,8 +798,8 @@ List AllMedicinBuySaleLavData = [];
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
                                                     fontFamily: "Josefin Sans"),),
-                selected: _selectedDestination == 4,
-                onTap: () => selectDestination(4),
+                selected: _selectedDestination == 7,
+                onTap: () => selectDestination(7),
               ),
             ),
 
@@ -803,8 +819,33 @@ List AllMedicinBuySaleLavData = [];
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
                                                     fontFamily: "Josefin Sans"),),
-                selected: _selectedDestination == 4,
-                onTap: () => selectDestination(4),
+               
+                onTap: () async{
+
+               
+
+
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) async{
+                              if (user == null) {
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminLogInScreen()),);
+                                
+                               print('User is currently signed out!');
+                              } else {
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminLogInScreen()),);
+                                print('User is signed in!');
+                                await FirebaseAuth.instance.signOut();
+                                          
+             
+                              }
+                            });
+                  
+
+
+                },
               ),
             ),
 
@@ -863,6 +904,13 @@ List AllMedicinBuySaleLavData = [];
     else if (index == 6) {
 
        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DueCustomer()));
+      
+    }
+
+  
+   else if (index == 7) {
+
+       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ChangePassword()));
       
     }
 

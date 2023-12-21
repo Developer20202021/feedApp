@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
 import 'package:feed/Screens/AdminPanel/AdminHomePage.dart';
+import 'package:feed/Screens/CommonScreen/ResetPassword.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -107,12 +108,7 @@ bool _passVisibility = true;
         child: loading?Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: Center(
-                      child: LoadingAnimationWidget.discreteCircle(
-                        color: const Color(0xFF1A1A3F),
-                        secondRingColor: Theme.of(context).primaryColor,
-                        thirdRingColor: Colors.white,
-                        size: 100,
-                      ),
+                      child: CircularProgressIndicator(color: ColorName().appColor,),
                     ),
               ): AutofillGroup(
                 child: Padding(
@@ -343,9 +339,9 @@ bool _passVisibility = true;
               
                              Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()),);
               
-                             setState(() {
-                            loading=false;
-                          });
+                          // setState(() {
+                          //   loading=false;
+                          // });
               
                       
                     }
@@ -437,18 +433,7 @@ bool _passVisibility = true;
                       ),),),
               
               
-              
-                Container(width: 150, child:TextButton(onPressed: (){
-              
-   
-              
-              
-              
-              
-                }, child: Text("Registration", style: TextStyle(color: Colors.white),), style: ButtonStyle(
-                     
-                        backgroundColor: MaterialStatePropertyAll<Color>(Colors.pink.shade300),
-                      ),),),
+            
               
               
               
@@ -475,7 +460,7 @@ bool _passVisibility = true;
               
   
               
-              
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassword()),);
               
               
                 }, child: Text("Reset Password", style: TextStyle(color: Colors.white, fontSize: 13),), style: ButtonStyle(
