@@ -3,6 +3,7 @@ import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
+import 'package:feed/Screens/StockManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -11,10 +12,17 @@ class EditChickenStock extends StatefulWidget {
 
  final String ChickenStockID;
 
+final ChickenNumber;
+
+final ChickenSalePrice;
+
+final ChickenBuyingPrice;
+
+final ChickenType;
 
 
 
-  const EditChickenStock({super.key, required this.ChickenStockID,});
+  const EditChickenStock({super.key, required this.ChickenStockID, required this.ChickenBuyingPrice, required this.ChickenNumber, required this.ChickenSalePrice, required this.ChickenType});
 
   @override
   State<EditChickenStock> createState() => _EditChickenStockState();
@@ -135,7 +143,7 @@ class _EditChickenStockState extends State<EditChickenStock> {
   void SetChickenType(){
 
     setState(() {
-      ChickenTypeValue = AllChickenStockData[0]["ChickenType"];
+      ChickenTypeValue = widget.ChickenType;
     });
   }
 
@@ -144,9 +152,9 @@ class _EditChickenStockState extends State<EditChickenStock> {
 @override
   void initState() {
 
-    getChickenStockData();
+    // getChickenStockData();
     
-   
+   SetChickenType();
 
     super.initState();
   }
@@ -174,11 +182,11 @@ class _EditChickenStockState extends State<EditChickenStock> {
 
 
 
-    ChickenNumberController.text = "${AllChickenStockData[0]["ChickenNumber"]}";
+    ChickenNumberController.text = widget.ChickenNumber.toString();
 
-    PerChickenSalePrice.text = AllChickenStockData[0]["ChickenSalePrice"];
+    PerChickenSalePrice.text = widget.ChickenSalePrice.toString();
 
-    PerChickenBuyingPrice.text = AllChickenStockData[0]["ChickenBuyingPrice"];
+    PerChickenBuyingPrice.text = widget.ChickenBuyingPrice.toString();
 
 
 
@@ -459,98 +467,11 @@ class _EditChickenStockState extends State<EditChickenStock> {
                                           MaterialStateProperty.all(
                                               ColorName().appColor)),
                                   onPressed: () async {
-                                    AwesomeDialog(
-                                            showCloseIcon: true,
-                                            customHeader: Image.asset(
-                                              "lib/Images/alert.png",
-                                              width: 90,
-                                              height: 90,
-                                            ),
-                                            context: context,
-                                            dialogType: DialogType.info,
-                                            animType: AnimType.rightSlide,
-                                            body: SingleChildScrollView(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        "আপনি নিচে দেখে নিশ্চিত করুন সব ঠিক আছে কি না?",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 16,
-                                                            fontFamily:
-                                                                "Josefin Sans"),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Text(
-                                                      "বাচ্চার সংখ্যাঃ ${ChickenNumberController.text} টি",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "বাচ্চার ধরণঃ $ChickenTypeValue",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "প্রতি বাচ্চার বিক্রয় মূল্যঃ ${PerChickenSalePrice.text} টাকা",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "প্রতি বাচ্চার ক্রয় মূল্যঃ ${PerChickenBuyingPrice.text} টাকা",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            btnOkOnPress: () async {
-                                              Future
+
+
+
+
+                                      Future
                                                   SaveChickenStockdata() async {
                                                 setState(() {
                                                   loading = true;
@@ -559,8 +480,7 @@ class _EditChickenStockState extends State<EditChickenStock> {
                                                 final docUser =
                                                     FirebaseFirestore.instance
                                                         .collection(
-                                                            "ChickenStockInfo")
-                                                        .doc(widget.ChickenStockID);
+                                                            "ChickenStockInfo");
 
                                                 final SetData = {
                                                 
@@ -577,18 +497,13 @@ class _EditChickenStockState extends State<EditChickenStock> {
                                                   "ChickenBuyingPrice":
                                                       PerChickenBuyingPrice.text
                                                           .trim(),
-                                                  "Date": DateTime.now()
-                                                      .toIso8601String(),
-                                                  "month":
-                                                      "${DateTime.now().month}/${DateTime.now().year}",
-                                                  "year":
-                                                      "${DateTime.now().year}",
+                                               
                                                 };
 
                                                 // user Data Update and show snackbar
 
                                                 docUser
-                                                    .update(SetData)
+                                                    .doc(widget.ChickenStockID).update(SetData)
                                                     .then((value) =>
                                                         setState(() {
                                                           setState(() {
@@ -596,6 +511,24 @@ class _EditChickenStockState extends State<EditChickenStock> {
                                                           });
 
                                                           print("Done");
+
+
+                                  AwesomeDialog(
+                                            showCloseIcon: true,
+
+                                            btnOkOnPress: () {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => StockShow()),);
+                                            },
+                                        
+                                            context: context,
+                                            dialogType: DialogType.success,
+                                            animType: AnimType.rightSlide,
+                                            body: const SingleChildScrollView(
+                                              child: Text("Stock Change Successfull"))).show();
+
+
+
+
 
                                                           final snackBar =
                                                               SnackBar(
@@ -667,12 +600,228 @@ class _EditChickenStockState extends State<EditChickenStock> {
                                               }
 
                                               SaveChickenStockdata();
-                                            },
-                                            btnCancelOnPress: () {},
-                                            btnOkColor: ColorName().appColor,
-                                            btnCancelColor:
-                                                ColorName().CancelBtnColor)
-                                        .show();
+
+
+
+
+
+
+
+
+                                    // AwesomeDialog(
+                                    //         showCloseIcon: true,
+                                    //         customHeader: Image.asset(
+                                    //           "lib/Images/alert.png",
+                                    //           width: 90,
+                                    //           height: 90,
+                                    //         ),
+                                    //         context: context,
+                                    //         dialogType: DialogType.info,
+                                    //         animType: AnimType.rightSlide,
+                                    //         body: SingleChildScrollView(
+                                    //           child: Padding(
+                                    //             padding:
+                                    //                 const EdgeInsets.all(8.0),
+                                    //             child: Column(
+                                    //               mainAxisAlignment:
+                                    //                   MainAxisAlignment.start,
+                                    //               crossAxisAlignment:
+                                    //                   CrossAxisAlignment.start,
+                                    //               children: [
+                                    //                 const Padding(
+                                    //                   padding:
+                                    //                       EdgeInsets.all(8.0),
+                                    //                   child: Text(
+                                    //                     "আপনি নিচে দেখে নিশ্চিত করুন সব ঠিক আছে কি না?",
+                                    //                     style: TextStyle(
+                                    //                         color: Colors.black,
+                                    //                         fontWeight:
+                                    //                             FontWeight.bold,
+                                    //                         fontSize: 16,
+                                    //                         fontFamily:
+                                    //                             "Josefin Sans"),
+                                    //                   ),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 15,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "বাচ্চার সংখ্যাঃ ${ChickenNumberController.text} টি",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "বাচ্চার ধরণঃ $ChickenTypeValue",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "প্রতি বাচ্চার বিক্রয় মূল্যঃ ${PerChickenSalePrice.text} টাকা",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "প্রতি বাচ্চার ক্রয় মূল্যঃ ${PerChickenBuyingPrice.text} টাকা",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //         btnOkOnPress: () async {
+                                    //           Future
+                                    //               SaveChickenStockdata() async {
+                                    //             setState(() {
+                                    //               loading = true;
+                                    //             });
+
+                                    //             final docUser =
+                                    //                 FirebaseFirestore.instance
+                                    //                     .collection(
+                                    //                         "ChickenStockInfo")
+                                    //                     .doc(widget.ChickenStockID);
+
+                                    //             final SetData = {
+                                                
+                                    //               "ChickenNumber":
+                                    //                   ChickenNumberController
+                                    //                       .text
+                                    //                       .trim(),
+                                    //               "ChickenType":
+                                    //                   ChickenTypeValue
+                                    //                       .toString(),
+                                    //               "ChickenSalePrice":
+                                    //                   PerChickenSalePrice.text
+                                    //                       .trim(),
+                                    //               "ChickenBuyingPrice":
+                                    //                   PerChickenBuyingPrice.text
+                                    //                       .trim(),
+                                    //               "Date": DateTime.now()
+                                    //                   .toIso8601String(),
+                                    //               "month":
+                                    //                   "${DateTime.now().month}/${DateTime.now().year}",
+                                    //               "year":
+                                    //                   "${DateTime.now().year}",
+                                    //             };
+
+                                    //             // user Data Update and show snackbar
+
+                                    //             docUser
+                                    //                 .update(SetData)
+                                    //                 .then((value) =>
+                                    //                     setState(() {
+                                    //                       setState(() {
+                                    //                         loading = false;
+                                    //                       });
+
+                                    //                       print("Done");
+
+                                    //                       final snackBar =
+                                    //                           SnackBar(
+                                    //                         /// need to set following properties for best effect of awesome_snackbar_content
+                                    //                         elevation: 0,
+                                    //                         behavior:
+                                    //                             SnackBarBehavior
+                                    //                                 .floating,
+                                    //                         backgroundColor:
+                                    //                             Colors
+                                    //                                 .transparent,
+                                    //                         content:
+                                    //                             AwesomeSnackbarContent(
+                                    //                           title:
+                                    //                               'Stock Upload Successfull',
+                                    //                           message:
+                                    //                               'Stock Upload Successfull',
+
+                                    //                           /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                    //                           contentType:
+                                    //                               ContentType
+                                    //                                   .success,
+                                    //                         ),
+                                    //                       );
+
+                                    //                       ScaffoldMessenger.of(
+                                    //                           context)
+                                    //                         ..hideCurrentSnackBar()
+                                    //                         ..showSnackBar(
+                                    //                             snackBar);
+                                    //                     }))
+                                    //                 .onError((error,
+                                    //                         stackTrace) =>
+                                    //                     setState(() {
+                                    //                       loading = false;
+
+                                    //                       final snackBar =
+                                    //                           SnackBar(
+                                    //                         /// need to set following properties for best effect of awesome_snackbar_content
+                                    //                         elevation: 0,
+                                    //                         behavior:
+                                    //                             SnackBarBehavior
+                                    //                                 .floating,
+                                    //                         backgroundColor:
+                                    //                             Colors
+                                    //                                 .transparent,
+                                    //                         content:
+                                    //                             AwesomeSnackbarContent(
+                                    //                           title:
+                                    //                               'Stock Upload Successfull',
+                                    //                           message:
+                                    //                               'Stock Upload Successfull',
+
+                                    //                           /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                    //                           contentType:
+                                    //                               ContentType
+                                    //                                   .failure,
+                                    //                         ),
+                                    //                       );
+
+                                    //                       ScaffoldMessenger.of(
+                                    //                           context)
+                                    //                         ..hideCurrentSnackBar()
+                                    //                         ..showSnackBar(
+                                    //                             snackBar);
+
+                                    //                       print(error);
+                                    //                     }));
+                                    //           }
+
+                                    //           SaveChickenStockdata();
+                                    //         },
+                                    //         btnCancelOnPress: () {},
+                                    //         btnOkColor: ColorName().appColor,
+                                    //         btnCancelColor:
+                                    //             ColorName().CancelBtnColor)
+                                    //     .show();
                                   },
                                   icon: Icon(Icons.add,
                                       size: 18, color: Colors.white),

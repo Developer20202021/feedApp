@@ -4,6 +4,7 @@ import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
+import 'package:feed/Screens/EditChickenStock.dart';
 import 'package:feed/Screens/EditFeedStock.dart';
 import 'package:feed/Screens/EditMedicinStock.dart';
 import 'package:flutter/material.dart';
@@ -2227,7 +2228,11 @@ print("____From_____DataMap_______${dataMap}");
                                       PopupMenuItem(
                                         onTap: () {
 
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => EditFeedStock(BagStockID: AllChickenStockData[x]["StockID"])),);
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditChickenStock(ChickenStockID: AllChickenStockData[x]["StockID"], 
+                                          ChickenBuyingPrice: AllChickenStockData[x]["ChickenBuyingPrice"], 
+                                          ChickenNumber: AllChickenStockData[x]["ChickenNumber"], 
+                                          ChickenSalePrice: AllChickenStockData[x]["ChickenSalePrice"], 
+                                          ChickenType: AllChickenStockData[x]["ChickenType"])),);
                                           
                                         },
                                         child: Text("Edit"),
