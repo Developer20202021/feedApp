@@ -2996,6 +2996,21 @@ print("____From_____DataMap_______${dataMap}");
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+
+                                     Text(
+                                      "মেডিসিনের নামঃ ${AllMedicineStockData[a]["MedicinName"]}",
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          fontFamily: "Josefin Sans"),
+                                    ),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+
+
+
                                     Text(
                                       "মেডিসিনের সংখ্যাঃ ${AllMedicineStockData[a]["MedicinNumber"]} টি",
                                       style: TextStyle(
@@ -3055,7 +3070,8 @@ print("____From_____DataMap_______${dataMap}");
                                       PopupMenuItem(
                                         onTap: () {
 
-                                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditMedicinStock(MedicinStockID: AllMedicineStockData[a]["StockID"])),);
+                                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditMedicinStock(MedicinStockID: AllMedicineStockData[a]["StockID"], MedicinBuyingPrice: AllMedicineStockData[a]["MedicinBuyingPrice"], 
+                                           MedicinName: AllMedicineStockData[a]["MedicinName"], MedicinNumber: AllMedicineStockData[a]["MedicinNumber"], MedicinSalePrice: AllMedicineStockData[a]["MedicinSalePrice"], MedicinType: AllMedicineStockData[a]["MedicinType"])),);
                                           
                                         },
                                         child: Text("Edit"),

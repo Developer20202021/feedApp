@@ -24,6 +24,7 @@ bool loading = false;
 
 
 
+String FourthTabDataLoad ="";
 
 double TabDueAmount =0.0;
 
@@ -49,7 +50,7 @@ List AllFeedKhuchraDueCustomer = [];
 
     if (RecentGetFeedData.isEmpty) {
       setState(() {
-        // FirstTabDataLoad = "0";
+        FourthTabDataLoad = "0";
         loading = false;
       });
     } else {
@@ -87,7 +88,7 @@ List AllFeedKhuchraDueCustomer = [];
 
 
 
-
+String FirstTabDataLoad = "";
 
 double FirstTabDueAmount =0.0;
 
@@ -113,7 +114,7 @@ List AllFeedDueCustomer = [];
 
     if (RecentGetFeedData.isEmpty) {
       setState(() {
-        // FirstTabDataLoad = "0";
+        FirstTabDataLoad = "0";
         loading = false;
       });
     } else {
@@ -150,7 +151,7 @@ List AllFeedDueCustomer = [];
 
 
 
-
+String SecondTabDataLoad ="";
 
 double SecondTabDueAmount=0.0;
 
@@ -176,7 +177,7 @@ List AllChickenDueCustomer = [];
 
     if (RecentGetFeedData.isEmpty) {
       setState(() {
-        // FirstTabDataLoad = "0";
+        SecondTabDataLoad = "0";
         loading = false;
       });
     } else {
@@ -214,7 +215,7 @@ List AllChickenDueCustomer = [];
 
 
 
-
+String ThirdTabDataLoad = "";
 
 double ThirdTabDueAmount=0.0;
 
@@ -240,7 +241,7 @@ List AllMedicinDueCustomer = [];
 
     if (RecentGetFeedData.isEmpty) {
       setState(() {
-        // FirstTabDataLoad = "0";
+        ThirdTabDataLoad = "0";
         loading = false;
       });
     } else {
@@ -304,7 +305,7 @@ List AllMedicinDueCustomerByPhone = [];
 
     if (RecentGetFeedData.isEmpty) {
       setState(() {
-        // FirstTabDataLoad = "0";
+        ThirdTabDataLoad = "0";
         loading = false;
       });
     } else {
@@ -355,7 +356,7 @@ List AllChickenDueCustomerByPhone = [];
 
     if (RecentGetFeedData.isEmpty) {
       setState(() {
-        // FirstTabDataLoad = "0";
+        SecondTabDataLoad = "0";
         loading = false;
       });
     } else {
@@ -405,7 +406,7 @@ List AllFeedDueCustomerByPhone = [];
 
     if (RecentGetFeedData.isEmpty) {
       setState(() {
-     
+        FirstTabDataLoad = "0";
         loading = false;
       });
     } else {
@@ -456,7 +457,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
     if (RecentGetFeedData.isEmpty) {
       setState(() {
-        // FirstTabDataLoad = "0";
+        FourthTabDataLoad = "0";
         loading = false;
       });
     } else {
@@ -546,7 +547,9 @@ List AllFeedKhuchraDueCustomerByPhone = [];
             children: [
 
               // First Tab 
-              loading?Center(child: CircularProgressIndicator(),):  SingleChildScrollView(
+              loading?Center(child: CircularProgressIndicator(),):  
+              
+             FirstTabDataLoad=="0"?Center(child: Text("No Data Available"),): SingleChildScrollView(
                   child: Column(
                     children: [
 
@@ -1156,7 +1159,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
 
                  // 2nd Tab 
-              loading?Center(child: CircularProgressIndicator(),):   SingleChildScrollView(
+              loading?Center(child: CircularProgressIndicator(),):   SecondTabDataLoad=="0"?Center(child: Text("No Data Available"),): SingleChildScrollView(
                   child:loading?Center(child: CircularProgressIndicator(),):Column(
                     children: [
 
@@ -1767,7 +1770,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
                 
             // 3rd Tab 
-               loading?Center(child: CircularProgressIndicator(),):  SingleChildScrollView(
+               loading?Center(child: CircularProgressIndicator(),):  ThirdTabDataLoad=="0"?Center(child: Text("No Data Available"),): SingleChildScrollView(
                   child:loading?Center(child: CircularProgressIndicator(),):Column(
                     children: [
 
@@ -2413,7 +2416,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
 
                 // 4th Tab 
-             loading?Center(child: CircularProgressIndicator(),):    SingleChildScrollView(
+             loading?Center(child: CircularProgressIndicator(),):    FourthTabDataLoad=="0"?Center(child: Text("No Data Available"),): SingleChildScrollView(
                   child: Column(
                     children: [
 
