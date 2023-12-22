@@ -4,6 +4,8 @@ import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
+import 'package:feed/Screens/EditFeedStock.dart';
+import 'package:feed/Screens/EditMedicinStock.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:uuid/uuid.dart';
@@ -1196,6 +1198,11 @@ print("____From_____DataMap_______${dataMap}");
                                                     ),
                                                   ),
                                                   PopupMenuItem(
+                                                    onTap: () async{
+
+                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => EditFeedStock(BagStockID: AllFeedStockData[i]["StockID"])),); 
+                                                      
+                                                    },
                                                     child: Text("Edit"),
                                                     value: '/hello',
                                                   ),
@@ -2068,7 +2075,7 @@ print("____From_____DataMap_______${dataMap}");
                                     elevation: 50.0,
                                     title: const Center(
                                       child: Text(
-                                        "গত মাসের ক্রয় বিক্রয় লাভের তথ্য",
+                                        "এই মাসের ক্রয় বিক্রয় লাভের তথ্য",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
@@ -2212,8 +2219,13 @@ print("____From_____DataMap_______${dataMap}");
                                     // your logic
                                   },
                                   itemBuilder: (BuildContext bc) {
-                                    return const [
+                                    return  [
                                       PopupMenuItem(
+                                        onTap: () {
+
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditFeedStock(BagStockID: AllChickenStockData[x]["StockID"])),);
+                                          
+                                        },
                                         child: Text("Edit"),
                                         value: '/hello',
                                       ),
@@ -3030,8 +3042,13 @@ print("____From_____DataMap_______${dataMap}");
                                     // your logic
                                   },
                                   itemBuilder: (BuildContext bc) {
-                                    return const [
+                                    return  [
                                       PopupMenuItem(
+                                        onTap: () {
+
+                                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditMedicinStock(MedicinStockID: AllMedicineStockData[a]["StockID"])),);
+                                          
+                                        },
                                         child: Text("Edit"),
                                         value: '/hello',
                                       ),

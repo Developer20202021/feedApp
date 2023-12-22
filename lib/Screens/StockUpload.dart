@@ -105,20 +105,7 @@ class _StockUploadState extends State<StockUpload> {
                       width: 40,
                       height: 40,
                     )),
-                Tab(
-                    text: 'মুরগীর বাচ্চা',
-                    icon: Image.asset(
-                      "lib/Images/chicken_baby.png",
-                      width: 40,
-                      height: 40,
-                    )),
-                Tab(
-                    text: 'মেডিসিন',
-                    icon: Image.asset(
-                      "lib/Images/drugs.png",
-                      width: 40,
-                      height: 40,
-                    )),
+     
               ],
             ),
           ),
