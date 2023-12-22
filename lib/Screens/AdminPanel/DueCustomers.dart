@@ -535,6 +535,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
                 
                 Tab(text: 'মুরগীর বাচ্চা', icon: Image.asset("lib/Images/chicken_baby.png", width: 40, height: 40,)),
+
                 Tab(text: 'মেডিসিন', icon: Image.asset("lib/Images/drugs.png", width: 40, height: 40,)),
 
                 Tab(text: 'খুচরা মুরগীর খাদ্য', icon: Image.asset("lib/Images/chicken_feed.png", width: 40, height: 40,)),
@@ -545,7 +546,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
             children: [
 
               // First Tab 
-                SingleChildScrollView(
+              loading?Center(child: CircularProgressIndicator(),):  SingleChildScrollView(
                   child: Column(
                     children: [
 
@@ -1155,7 +1156,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
 
                  // 2nd Tab 
-                SingleChildScrollView(
+              loading?Center(child: CircularProgressIndicator(),):   SingleChildScrollView(
                   child:loading?Center(child: CircularProgressIndicator(),):Column(
                     children: [
 
@@ -1766,7 +1767,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
                 
             // 3rd Tab 
-                SingleChildScrollView(
+               loading?Center(child: CircularProgressIndicator(),):  SingleChildScrollView(
                   child:loading?Center(child: CircularProgressIndicator(),):Column(
                     children: [
 
@@ -2412,7 +2413,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
 
                 // 4th Tab 
-                SingleChildScrollView(
+             loading?Center(child: CircularProgressIndicator(),):    SingleChildScrollView(
                   child: Column(
                     children: [
 
@@ -2475,7 +2476,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
 
                       SizedBox(height: 50,),
 
-                      for(int i=0; i<AllFeedDueCustomer.length; i++)
+                      for(int i=0; i<AllFeedKhuchraDueCustomer.length; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: InkWell(

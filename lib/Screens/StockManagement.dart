@@ -1200,7 +1200,11 @@ print("____From_____DataMap_______${dataMap}");
                                                   PopupMenuItem(
                                                     onTap: () async{
 
-                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => EditFeedStock(BagStockID: AllFeedStockData[i]["StockID"])),); 
+                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => EditFeedStock(BagStockID: AllFeedStockData[i]["StockID"], FeedBagNumber: AllFeedStockData[i]["FeedBagNumber"], 
+                                                     
+                                                     FeedName: AllFeedStockData[i]["FeedName"], 
+                                                     
+                                                     PerBagBuyingPrice: AllFeedStockData[i]["PerBagBuyingPrice"], PerBagSalePrice: AllFeedStockData[i]["PerKgSalePrice"], PerKgBuyingPrice: AllFeedStockData[i]["PerKgBuyingPrice"], PerKgSalePrice: AllFeedStockData[i]["PerKgSalePrice"], FeedBagType: AllFeedStockData[i]["FeedBagType"],)),); 
                                                       
                                                     },
                                                     child: Text("Edit"),
@@ -2223,7 +2227,7 @@ print("____From_____DataMap_______${dataMap}");
                                       PopupMenuItem(
                                         onTap: () {
 
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditFeedStock(BagStockID: AllChickenStockData[x]["StockID"])),);
+                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => EditFeedStock(BagStockID: AllChickenStockData[x]["StockID"])),);
                                           
                                         },
                                         child: Text("Edit"),

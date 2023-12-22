@@ -3,6 +3,7 @@ import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:feed/DeveloperAccess/DeveloperAccess.dart';
+import 'package:feed/Screens/StockManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -12,9 +13,24 @@ class EditFeedStock extends StatefulWidget {
  final String BagStockID;
 
 
+ final  FeedName;
+
+final FeedBagNumber;
+
+final PerBagSalePrice;
+
+final PerBagBuyingPrice;
+
+final PerKgSalePrice;
+
+final PerKgBuyingPrice;
+
+final FeedBagType;
 
 
-  const EditFeedStock({super.key, required this.BagStockID,});
+
+
+  const EditFeedStock({super.key, required this.BagStockID, required this.FeedBagNumber, required this.FeedName, required this.PerBagBuyingPrice, required this.PerBagSalePrice, required this.PerKgBuyingPrice, required this.PerKgSalePrice, required this.FeedBagType});
 
   @override
   State<EditFeedStock> createState() => _EditFeedStockState();
@@ -135,18 +151,23 @@ class _EditFeedStockState extends State<EditFeedStock> {
   void SetFeedBagType(){
 
     setState(() {
-      selectedValue = AllFeedStockData[0]["FeedBagType"];
+      selectedValue = widget.FeedBagType;
     });
   }
+
+
+
+
 
 
 
 @override
   void initState() {
 
-    getFeedStockData();
+    SetFeedBagType();
+
+    print(widget.BagStockID);
     
-   
 
     super.initState();
   }
@@ -172,19 +193,18 @@ class _EditFeedStockState extends State<EditFeedStock> {
 
 
 
-    FeedNameController.text = "${AllFeedStockData[0]["FeedName"]}";
 
-    BagNumber.text = "${AllFeedStockData[0]["FeedBagNumber"]}";
+    FeedNameController.text = widget.FeedName.toString();
 
-    PerBagSalePrice.text = AllFeedStockData[0]["PerBagSalePrice"];
+    BagNumber.text = widget.FeedBagNumber.toString();
 
-    PerBagBuyingPrice.text = AllFeedStockData[0]["PerBagBuyingPrice"];
+    PerBagSalePrice.text = widget.PerBagSalePrice.toString();
 
-    PerKgSalePrice.text = AllFeedStockData[0]["PerKgSalePrice"];
+    PerBagBuyingPrice.text = widget.PerBagBuyingPrice.toString();
 
-    PerKgBuyingPrice.text = AllFeedStockData[0]["PerKgBuyingPrice"];
+    PerKgSalePrice.text = widget.PerKgSalePrice.toString();
 
-
+    PerKgBuyingPrice.text = widget.PerKgBuyingPrice.toString();
 
 
 
@@ -226,20 +246,7 @@ class _EditFeedStockState extends State<EditFeedStock> {
                       width: 40,
                       height: 40,
                     )),
-                Tab(
-                    text: 'মুরগীর বাচ্চা',
-                    icon: Image.asset(
-                      "lib/Images/chicken_baby.png",
-                      width: 40,
-                      height: 40,
-                    )),
-                Tab(
-                    text: 'মেডিসিন',
-                    icon: Image.asset(
-                      "lib/Images/drugs.png",
-                      width: 40,
-                      height: 40,
-                    )),
+           
               ],
             ),
           ),
@@ -257,7 +264,8 @@ class _EditFeedStockState extends State<EditFeedStock> {
                               height: 30,
                             ),
                             TextField(
-                              keyboardType: TextInputType.name,
+                          
+                             
                               maxLength: 230,
                               decoration: InputDecoration(
                                 prefixIcon: Image.asset(
@@ -562,140 +570,11 @@ class _EditFeedStockState extends State<EditFeedStock> {
                                           MaterialStateProperty.all(
                                               ColorName().appColor)),
                                   onPressed: () async {
-                                    AwesomeDialog(
-                                            showCloseIcon: true,
-                                            customHeader: Image.asset(
-                                              "lib/Images/alert.png",
-                                              width: 90,
-                                              height: 90,
-                                            ),
-                                            context: context,
-                                            dialogType: DialogType.info,
-                                            animType: AnimType.rightSlide,
-                                            body: SingleChildScrollView(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        "আপনি নিচে দেখে নিশ্চিত করুন সব ঠিক আছে কি না?",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 16,
-                                                            fontFamily:
-                                                                "Josefin Sans"),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Text(
-                                                      "খাদ্যের নামঃ ${FeedNameController.text}",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "বস্তার সংখ্যাঃ ${BagNumber.text} টি",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "বস্তার ধরণঃ ${selectedValue}",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "প্রতি বস্তার বিক্রয় মূল্যঃ ${PerBagSalePrice.text} টাকা",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "প্রতি কেজি বিক্রয় মূল্যঃ ${PerKgSalePrice.text} টাকা",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "প্রতি বস্তার ক্রয় মূল্যঃ ${PerBagBuyingPrice.text} টাকা",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      "প্রতি কেজি ক্রয় মূল্যঃ ${double.parse(PerBagBuyingPrice.text.trim().toString()) / (selectedValue?.split(" ")[0] == "২৫" ? 25 : 50)} টাকা",
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              "Josefin Sans"),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            btnOkOnPress: () async {
-                                              Future SaveFeedStockdata() async {
+
+
+
+
+                                    Future SaveFeedStockdata() async {
                                                 setState(() {
                                                   loading = true;
                                                 });
@@ -703,16 +582,15 @@ class _EditFeedStockState extends State<EditFeedStock> {
                                                 final docUser =
                                                     FirebaseFirestore.instance
                                                         .collection(
-                                                            "FeedStockInfo")
-                                                        .doc(widget.BagStockID);
+                                                            "FeedStockInfo");
 
                                                 final SetData = {
                                                   
                                                   "FeedName": FeedNameController
                                                       .text
-                                                      .trim(),
+                                                      .trim().toString(),
                                                   "FeedBagNumber":
-                                                      BagNumber.text.trim(),
+                                                      BagNumber.text.trim().toString(),
                                                   "SaveFeedBagNumber":
                                                       BagNumber.text.trim(),
                                                   "FeedBagType":
@@ -722,7 +600,7 @@ class _EditFeedStockState extends State<EditFeedStock> {
                                                           .trim(),
                                                   "PerKgSalePrice":
                                                       PerKgSalePrice.text
-                                                          .trim(),
+                                                          .trim().toString(),
                                                   "PerBagBuyingPrice":
                                                       PerBagBuyingPrice.text
                                                           .trim(),
@@ -746,17 +624,39 @@ class _EditFeedStockState extends State<EditFeedStock> {
                                                       "${DateTime.now().year}",
                                                 };
 
+
+
+
+                                                print(SetData);
+
                                                 // user Data Update and show snackbar
 
                                                 docUser
-                                                    .update(SetData)
+                                                      .doc(widget.BagStockID).update(SetData)
                                                     .then((value) =>
                                                         setState(() {
                                                           setState(() {
                                                             loading = false;
                                                           });
 
+                                                          // getFeedStockData();
+
                                                           print("Done");
+
+
+
+                                          AwesomeDialog(
+                                            showCloseIcon: true,
+
+                                            btnOkOnPress: () {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => StockShow()),);
+                                            },
+                                        
+                                            context: context,
+                                            dialogType: DialogType.success,
+                                            animType: AnimType.rightSlide,
+                                            body: SingleChildScrollView(
+                                              child: Text("Stock Change Successfull"))).show();
 
                                                           final snackBar =
                                                               SnackBar(
@@ -828,14 +728,295 @@ class _EditFeedStockState extends State<EditFeedStock> {
                                               }
 
                                               SaveFeedStockdata();
-                                            },
-                                            btnCancelOnPress: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            btnOkColor: ColorName().appColor,
-                                            btnCancelColor:
-                                                ColorName().CancelBtnColor)
-                                        .show();
+
+
+
+
+
+
+                                    // AwesomeDialog(
+                                    //         showCloseIcon: true,
+                                    //         customHeader: Image.asset(
+                                    //           "lib/Images/alert.png",
+                                    //           width: 90,
+                                    //           height: 90,
+                                    //         ),
+                                    //         context: context,
+                                    //         dialogType: DialogType.info,
+                                    //         animType: AnimType.rightSlide,
+                                    //         body: SingleChildScrollView(
+                                    //           child: Padding(
+                                    //             padding:
+                                    //                 const EdgeInsets.all(8.0),
+                                    //             child: Column(
+                                    //               mainAxisAlignment:
+                                    //                   MainAxisAlignment.start,
+                                    //               crossAxisAlignment:
+                                    //                   CrossAxisAlignment.start,
+                                    //               children: [
+                                    //                 const Padding(
+                                    //                   padding:
+                                    //                       EdgeInsets.all(8.0),
+                                    //                   child: Text(
+                                    //                     "আপনি নিচে দেখে নিশ্চিত করুন সব ঠিক আছে কি না?",
+                                    //                     style: TextStyle(
+                                    //                         color: Colors.black,
+                                    //                         fontWeight:
+                                    //                             FontWeight.bold,
+                                    //                         fontSize: 16,
+                                    //                         fontFamily:
+                                    //                             "Josefin Sans"),
+                                    //                   ),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 15,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "খাদ্যের নামঃ ${FeedNameController.text}",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "বস্তার সংখ্যাঃ ${BagNumber.text} টি",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "বস্তার ধরণঃ ${selectedValue}",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "প্রতি বস্তার বিক্রয় মূল্যঃ ${PerBagSalePrice.text} টাকা",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "প্রতি কেজি বিক্রয় মূল্যঃ ${PerKgSalePrice.text} টাকা",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "প্রতি বস্তার ক্রয় মূল্যঃ ${PerBagBuyingPrice.text} টাকা",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //                 const SizedBox(
+                                    //                   height: 5,
+                                    //                 ),
+                                    //                 Text(
+                                    //                   "প্রতি কেজি ক্রয় মূল্যঃ ${double.parse(PerBagBuyingPrice.text.trim().toString()) / (selectedValue?.split(" ")[0] == "২৫" ? 25 : 50)} টাকা",
+                                    //                   style: const TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontWeight:
+                                    //                           FontWeight.bold,
+                                    //                       fontSize: 14,
+                                    //                       fontFamily:
+                                    //                           "Josefin Sans"),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //         btnOkOnPress: () async {
+
+
+                                    //           Future SaveFeedStockdata() async {
+                                    //             setState(() {
+                                    //               loading = true;
+                                    //             });
+
+                                    //             final docUser =
+                                    //                 FirebaseFirestore.instance
+                                    //                     .collection(
+                                    //                         "FeedStockInfo");
+
+                                    //             final SetData = {
+                                                  
+                                    //               "FeedName": FeedNameController
+                                    //                   .text
+                                    //                   .trim().toString(),
+                                    //               "FeedBagNumber":
+                                    //                   BagNumber.text.trim().toString(),
+                                    //               "SaveFeedBagNumber":
+                                    //                   BagNumber.text.trim(),
+                                    //               "FeedBagType":
+                                    //                   selectedValue.toString(),
+                                    //               "PerBagSalePrice":
+                                    //                   PerBagSalePrice.text
+                                    //                       .trim(),
+                                    //               "PerKgSalePrice":
+                                    //                   PerKgSalePrice.text
+                                    //                       .trim().toString(),
+                                    //               "PerBagBuyingPrice":
+                                    //                   PerBagBuyingPrice.text
+                                    //                       .trim(),
+                                    //               "PerKgBuyingPrice":
+                                    //                   double.parse(
+                                    //                           PerBagBuyingPrice
+                                    //                               .text
+                                    //                               .trim()
+                                    //                               .toString()) /
+                                    //                       (selectedValue?.split(
+                                    //                                   " ")[0] ==
+                                    //                               "২৫"
+                                    //                           ? 25
+                                    //                           : 50),
+                                                
+                                    //               "Date": DateTime.now()
+                                    //                   .toIso8601String(),
+                                    //               "month":
+                                    //                   "${DateTime.now().month}/${DateTime.now().year}",
+                                    //               "year":
+                                    //                   "${DateTime.now().year}",
+                                    //             };
+
+
+
+
+                                    //             print(SetData);
+
+                                    //             // user Data Update and show snackbar
+
+                                    //             docUser
+                                    //                   .doc(widget.BagStockID).update(SetData)
+                                    //                 .then((value) =>
+                                    //                     setState(() {
+                                    //                       setState(() {
+                                    //                         loading = false;
+                                    //                       });
+
+                                    //                       print("Done");
+
+                                    //                       final snackBar =
+                                    //                           SnackBar(
+                                    //                         /// need to set following properties for best effect of awesome_snackbar_content
+                                    //                         elevation: 0,
+                                    //                         behavior:
+                                    //                             SnackBarBehavior
+                                    //                                 .floating,
+                                    //                         backgroundColor:
+                                    //                             Colors
+                                    //                                 .transparent,
+                                    //                         content:
+                                    //                             AwesomeSnackbarContent(
+                                    //                           title:
+                                    //                               'Stock Upload Successfull',
+                                    //                           message:
+                                    //                               'Stock Upload Successfull',
+
+                                    //                           /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                    //                           contentType:
+                                    //                               ContentType
+                                    //                                   .success,
+                                    //                         ),
+                                    //                       );
+
+                                    //                       ScaffoldMessenger.of(
+                                    //                           context)
+                                    //                         ..hideCurrentSnackBar()
+                                    //                         ..showSnackBar(
+                                    //                             snackBar);
+                                    //                     }))
+                                    //                 .onError((error,
+                                    //                         stackTrace) =>
+                                    //                     setState(() {
+                                    //                       loading = false;
+
+                                    //                       final snackBar =
+                                    //                           SnackBar(
+                                    //                         /// need to set following properties for best effect of awesome_snackbar_content
+                                    //                         elevation: 0,
+                                    //                         behavior:
+                                    //                             SnackBarBehavior
+                                    //                                 .floating,
+                                    //                         backgroundColor:
+                                    //                             Colors
+                                    //                                 .transparent,
+                                    //                         content:
+                                    //                             AwesomeSnackbarContent(
+                                    //                           title:
+                                    //                               'Stock Upload Successfull',
+                                    //                           message:
+                                    //                               'Stock Upload Successfull',
+
+                                    //                           /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                    //                           contentType:
+                                    //                               ContentType
+                                    //                                   .failure,
+                                    //                         ),
+                                    //                       );
+
+                                    //                       ScaffoldMessenger.of(
+                                    //                           context)
+                                    //                         ..hideCurrentSnackBar()
+                                    //                         ..showSnackBar(
+                                    //                             snackBar);
+
+                                    //                       print(error);
+                                    //                     }));
+                                    //           }
+
+                                    //           SaveFeedStockdata();
+
+
+
+                                    //         },
+                                    //         btnCancelOnPress: () {
+                                    //           Navigator.of(context).pop();
+                                    //         },
+                                    //         btnOkColor: ColorName().appColor,
+                                    //         btnCancelColor:
+                                    //             ColorName().CancelBtnColor)
+                                    //     .show();
                                   },
                                   icon: Icon(
                                     Icons.add,
