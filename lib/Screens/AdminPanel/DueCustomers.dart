@@ -312,6 +312,16 @@ List AllMedicinDueCustomerByPhone = [];
       setState(() {
        AllMedicinDueCustomer =
             queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+
+      
+        ThirdTabDueAmount = 0.0;
+
+        for (var i = 0; i < AllMedicinDueCustomer.length; i++) {
+
+        ThirdTabDueAmount = ThirdTabDueAmount + double.parse(AllMedicinDueCustomer[i]["DueAmount"].toString());
+        
+      }
        
       });
 
@@ -363,6 +373,16 @@ List AllChickenDueCustomerByPhone = [];
       setState(() {
         AllChickenDueCustomer =
             queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+        SecondTabDueAmount = 0.0;
+
+        for (var i = 0; i < AllChickenDueCustomer.length; i++) {
+
+        SecondTabDueAmount = SecondTabDueAmount + double.parse(AllChickenDueCustomer[i]["DueAmount"].toString());
+        
+      }
+
+
        
       });
 
@@ -414,7 +434,19 @@ List AllFeedDueCustomerByPhone = [];
         AllFeedDueCustomer =
             queryDueSnapshot.docs.map((doc) => doc.data()).toList();
 
-            
+
+          FirstTabDueAmount = 0.0;
+          SecondTabDueAmount = 0.0;
+          ThirdTabDueAmount = 0.0;
+
+        for (var i = 0; i < AllFeedDueCustomer.length; i++) {
+
+        FirstTabDueAmount= FirstTabDueAmount + double.parse(AllFeedDueCustomer[i]["DueAmount"].toString());
+        
+      }
+
+      
+      getChickenDueCustomerByPhone();      
        
       });
 
@@ -518,7 +550,7 @@ List AllFeedKhuchraDueCustomerByPhone = [];
           
           appBar: AppBar(
             title: Text(
-          "বাকেয়া কাস্টমার দেখুন"
+          "বাকেয়া কাস্টমার দেখুন ${FirstTabDueAmount + SecondTabDueAmount + ThirdTabDueAmount}"
               .toBijoy,
           style: const TextStyle(
               color: Colors.white,
