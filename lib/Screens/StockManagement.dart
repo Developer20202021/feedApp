@@ -2965,7 +2965,7 @@ print("____From_____DataMap_______${dataMap}");
                           elevation: 8.0,
                           child: Column(
                             children: [
-                              int.parse(AllMedicineStockData[a]["MedicinNumber"]) <= 0
+                              int.parse(AllMedicineStockData[a]["MedicinNumber"].toString()) <= 0
                                   ? Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment:
